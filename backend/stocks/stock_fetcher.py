@@ -72,6 +72,12 @@ class StockDataFetcher:
             "dividend_stocks": StockDataFetcher._get_dividend_stocks(stocks_df),
             # Growth Stocks
             "growth_stocks": StockDataFetcher._get_growth_stocks(stocks_df),
+            # Top Positive Movers
+            "top_positive_movers": StockDataFetcher._get_top_positive_movers(stocks_df),
+            # Top Negative Movers
+            "top_negative_movers": StockDataFetcher._get_top_negative_movers(stocks_df),
+            # Top Sectors Change
+            "top_sectors_change": StockDataFetcher._get_top_sectors_change(stocks_df),
         }
 
         return insights
@@ -543,6 +549,45 @@ class StockDataFetcher:
                 "EPS Diluted (TTM YoY Growth)",
             ],
         )
+
+    @staticmethod
+    def _get_top_positive_movers(df, limit=10):
+        """Get stocks with highest positive change (daily top gainers)"""
+        if "Change %" in df.columns:
+            positive_change = df[df["Change %"] > 0].nlargest(limit, "Change %")
+            return StockDataFetcher._format_stock_list(
+                positive_change, ["Symbol", "Name", "Price", "Change %"]
+            )
+        return []
+
+    @staticmethod
+    def _get_top_negative_movers(df, limit=10):
+        """Get stocks with highest negative change (daily top losers)"""
+        if "Change %" in df.columns:
+            negative_change = df[df["Change %"] < 0].nsmallest(limit, "Change %")  # most negative = largest fall
+            return StockDataFetcher._format_stock_list(
+                negative_change, ["Symbol", "Name", "Price", "Change %"]
+            )
+        return []
+
+    @staticmethod
+    def _get_top_sectors_change(df, limit=10):
+        """Get top sectors by average change percentage"""
+        if "Sector" not in df.columns or "Change %" not in df.columns:
+            return []
+
+        # Group by sector and calculate average change
+        sector_performance = df.groupby('Sector')['Change %'].mean().reset_index()
+        sector_performance = sector_performance.sort_values('Change %', ascending=False).head(limit)
+
+        sectors = []
+        for _, row in sector_performance.iterrows():
+            sectors.append({
+                'sector': str(row['Sector']),
+                'change': float(row['Change %']) if not pd.isna(row['Change %']) else 0.0
+            })
+
+        return sectors
 
     @staticmethod
     def _format_stock_list(df, columns):
