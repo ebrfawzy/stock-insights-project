@@ -4,7 +4,7 @@
         "builder": "DOCKERFILE"
     },
     "deploy": {
-        "startCommand": "gunicorn stock_api.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120",
+        "startCommand": "python start_server.py",
         "healthcheckPath": "/api/stocks/",
         "healthcheckTimeout": 300,
         "restartPolicyType": "ON_FAILURE",
