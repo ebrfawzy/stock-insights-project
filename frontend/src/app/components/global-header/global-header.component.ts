@@ -42,15 +42,15 @@ import { ThemeService } from '../../services/theme.service';
           
           <div class="d-flex align-items-center gap-3">
             <button class="btn btn-outline-light btn-sm theme-toggle" (click)="toggleTheme()" 
-                    [title]="themeService.isDarkMode() ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+                    [title]="themeService.isDarkMode() ? languageService.getTranslation('light') : languageService.getTranslation('dark')">
               <i class="bi" [class.bi-sun]="themeService.isDarkMode()" [class.bi-moon]="!themeService.isDarkMode()"></i>
-              <span class="ms-1 d-none d-md-inline">{{ themeService.isDarkMode() ? 'Light' : 'Dark' }}</span>
+              <span class="ms-1 d-none d-md-inline">{{ themeService.isDarkMode() ? languageService.getTranslation('light') : languageService.getTranslation('dark') }}</span>
             </button>
             
             <div class="dropdown">
               <select class="form-select form-select-sm" (change)="onLanguageChange($event)" 
                       [value]="languageService.getCurrentLanguage()().code" 
-                      [title]="'Change Language'" style="width: auto;">
+                      [title]="languageService.getTranslation('changeLanguage')" style="width: auto;">
                 <option *ngFor="let lang of languageService.getLanguages()" [value]="lang.code">
                   {{ lang.flag }} {{ lang.name }}
                 </option>

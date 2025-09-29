@@ -47,7 +47,7 @@ import { LanguageService } from '../../services/language.service';
       <!-- Features Section -->
       <section class="py-5">
         <div class="container">
-          <h2 class="text-center text-primary-custom mb-5">Key Features</h2>
+          <h2 class="text-center text-primary-custom mb-5">{{ languageService.getTranslation('keyFeatures') }}</h2>
           <div class="row g-4">
             <div class="col-md-6 col-lg-3">
               <div class="card h-100 shadow-custom border-0">
@@ -55,8 +55,8 @@ import { LanguageService } from '../../services/language.service';
                   <div class="mb-3">
                     <i class="bi bi-graph-up text-primary" style="font-size: 3rem;"></i>
                   </div>
-                  <h5 class="card-title text-primary-custom">Real-time Data</h5>
-                  <p class="card-text text-muted-custom">Get up-to-date stock prices and market data from the Egyptian stock exchange</p>
+                  <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('featureRealTimeDataTitle') }}</h5>
+                  <p class="card-text text-muted-custom">{{ languageService.getTranslation('featureRealTimeDataDesc') }}</p>
                 </div>
               </div>
             </div>
@@ -66,8 +66,8 @@ import { LanguageService } from '../../services/language.service';
                   <div class="mb-3">
                     <i class="bi bi-bullseye text-primary" style="font-size: 3rem;"></i>
                   </div>
-                  <h5 class="card-title text-primary-custom">Smart Insights</h5>
-                  <p class="card-text text-muted-custom">AI-powered analysis to identify bullish, bearish, and value opportunities</p>
+                  <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('featureSmartInsightsTitle') }}</h5>
+                  <p class="card-text text-muted-custom">{{ languageService.getTranslation('featureSmartInsightsDesc') }}</p>
                 </div>
               </div>
             </div>
@@ -77,8 +77,8 @@ import { LanguageService } from '../../services/language.service';
                   <div class="mb-3">
                     <i class="bi bi-bar-chart text-primary" style="font-size: 3rem;"></i>
                   </div>
-                  <h5 class="card-title text-primary-custom">Technical Analysis</h5>
-                  <p class="card-text text-muted-custom">Comprehensive technical indicators and charting tools for informed decisions</p>
+                  <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('featureTechnicalAnalysisTitle') }}</h5>
+                  <p class="card-text text-muted-custom">{{ languageService.getTranslation('featureTechnicalAnalysisDesc') }}</p>
                 </div>
               </div>
             </div>
@@ -88,8 +88,8 @@ import { LanguageService } from '../../services/language.service';
                   <div class="mb-3">
                     <i class="bi bi-cash-coin text-primary" style="font-size: 3rem;"></i>
                   </div>
-                  <h5 class="card-title text-primary-custom">Investment Strategies</h5>
-                  <p class="card-text text-muted-custom">Find the best stocks for short, medium, and long-term investment horizons</p>
+                  <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('featureInvestmentStrategiesTitle') }}</h5>
+                  <p class="card-text text-muted-custom">{{ languageService.getTranslation('featureInvestmentStrategiesDesc') }}</p>
                 </div>
               </div>
             </div>
@@ -100,30 +100,30 @@ import { LanguageService } from '../../services/language.service';
       <!-- Market Overview -->
       <section class="py-5 bg-light">
         <div class="container">
-          <h2 class="text-center text-primary-custom mb-5">Market Overview</h2>
+          <h2 class="text-center text-primary-custom mb-5">{{ languageService.getTranslation('marketOverview') }}</h2>
           <div class="row g-4">
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
                 <div class="display-4 fw-bold text-primary mb-2">500+</div>
-                <div class="text-muted-custom">Stocks Tracked</div>
+                <div class="text-muted-custom">{{ languageService.getTranslation('statsStocksTracked') }}</div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
                 <div class="display-4 fw-bold text-success mb-2">24/7</div>
-                <div class="text-muted-custom">Real-time Updates</div>
+                <div class="text-muted-custom">{{ languageService.getTranslation('statsRealTimeUpdates') }}</div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
                 <div class="display-4 fw-bold text-info mb-2">50+</div>
-                <div class="text-muted-custom">Technical Indicators</div>
+                <div class="text-muted-custom">{{ languageService.getTranslation('statsTechnicalIndicators') }}</div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
                 <div class="display-4 fw-bold text-warning mb-2">100%</div>
-                <div class="text-muted-custom">Free Access</div>
+                <div class="text-muted-custom">{{ languageService.getTranslation('statsFreeAccess') }}</div>
               </div>
             </div>
           </div>
@@ -134,10 +134,10 @@ import { LanguageService } from '../../services/language.service';
       <section class="py-5 bg-primary text-white">
         <div class="container">
           <div class="text-center">
-            <h2 class="mb-4">Ready to Start Investing?</h2>
-            <p class="lead mb-4">Join thousands of investors who trust our insights for their Egyptian stock market decisions</p>
+            <h2 class="mb-4">{{ languageService.getTranslation('ctaTitle') }}</h2>
+            <p class="lead mb-4">{{ languageService.getTranslation('ctaSubtitle') }}</p>
             <button class="btn btn-light btn-lg" (click)="goToInsights()">
-              <i class="bi bi-rocket-takeoff me-2"></i>Start Analyzing Now
+              <i class="bi bi-rocket-takeoff me-2"></i>{{ languageService.getTranslation('ctaButton') }}
             </button>
           </div>
         </div>
@@ -151,30 +151,30 @@ import { LanguageService } from '../../services/language.service';
               <h5 class="fw-bold mb-3">
                 <i class="bi bi-graph-up me-2"></i>StockInsights
               </h5>
-              <p class="text-light">Your trusted partner for Egyptian stock market analysis</p>
+              <p class="text-light">{{ languageService.getTranslation('footerTagline') }}</p>
             </div>
             <div class="col-md-4 mb-4">
-              <h6 class="fw-bold mb-3">Quick Links</h6>
+              <h6 class="fw-bold mb-3">{{ languageService.getTranslation('quickLinks') }}</h6>
               <ul class="list-unstyled">
                 <li class="mb-2">
                   <a routerLink="/insights" class="text-light text-decoration-none">
-                    <i class="bi bi-arrow-right me-2"></i>Market Insights
+                    <i class="bi bi-arrow-right me-2"></i>{{ languageService.getTranslation('marketInsightsLink') }}
                   </a>
                 </li>
                 <li class="mb-2">
                   <a routerLink="/stocks" class="text-light text-decoration-none">
-                    <i class="bi bi-arrow-right me-2"></i>Stock List
+                    <i class="bi bi-arrow-right me-2"></i>{{ languageService.getTranslation('stockListLink') }}
                   </a>
                 </li>
                 <li class="mb-2">
                   <a href="#" class="text-light text-decoration-none">
-                    <i class="bi bi-arrow-right me-2"></i>About Us
+                    <i class="bi bi-arrow-right me-2"></i>{{ languageService.getTranslation('aboutUs') }}
                   </a>
                 </li>
               </ul>
             </div>
             <div class="col-md-4 mb-4">
-              <h6 class="fw-bold mb-3">Contact</h6>
+              <h6 class="fw-bold mb-3">{{ languageService.getTranslation('contact') }}</h6>
               <p class="text-light mb-2">
                 <i class="bi bi-envelope me-2"></i>info@stockinsights.com
               </p>
@@ -185,7 +185,7 @@ import { LanguageService } from '../../services/language.service';
           </div>
           <hr class="border-light">
           <div class="text-center">
-            <p class="mb-0 text-light">&copy; 2024 StockInsights. All rights reserved.</p>
+            <p class="mb-0 text-light">&copy; 2024 StockInsights. {{ languageService.getTranslation('rightsReserved') }}</p>
           </div>
         </div>
       </footer>

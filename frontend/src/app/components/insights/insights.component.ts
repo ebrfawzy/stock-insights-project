@@ -18,7 +18,7 @@ import { LanguageService } from '../../services/language.service';
           <div class="row mb-4">
             <div class="col-lg-8">
               <h1 class="display-5 text-primary-custom mb-2">{{ languageService.getTranslation('marketInsights') }}</h1>
-              <p class="lead text-muted-custom">Comprehensive analysis of the Egyptian stock market</p>
+              <p class="lead text-muted-custom">{{ languageService.getTranslation('insightsSubtitle') }}</p>
             </div>
             <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
               <button class="btn btn-primary btn-lg" (click)="refreshData()" [disabled]="loading">
@@ -31,13 +31,13 @@ import { LanguageService } from '../../services/language.service';
           <!-- Market Overview -->
           <div class="row mb-5" *ngIf="insights">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">Market Overview</h2>
+              <h2 class="text-primary-custom mb-4">{{ languageService.getTranslation('marketOverview') }}</h2>
               <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
                   <div class="card shadow-custom h-100 border-0">
                     <div class="card-body text-center">
                       <div class="display-6 fw-bold text-primary mb-2">{{ insights.total_stocks }}</div>
-                      <div class="text-muted-custom">Total Stocks</div>
+                      <div class="text-muted-custom">{{ languageService.getTranslation('totalStocks') }}</div>
                     </div>
                   </div>
                 </div>
@@ -45,7 +45,7 @@ import { LanguageService } from '../../services/language.service';
                   <div class="card shadow-custom h-100 border-0">
                     <div class="card-body text-center">
                       <div class="display-6 fw-bold text-success mb-2">{{ formatCurrency(insights.market_overview.total_market_cap) }}</div>
-                      <div class="text-muted-custom">Total Market Cap</div>
+                      <div class="text-muted-custom">{{ languageService.getTranslation('totalMarketCap') }}</div>
                     </div>
                   </div>
                 </div>
@@ -53,7 +53,7 @@ import { LanguageService } from '../../services/language.service';
                   <div class="card shadow-custom h-100 border-0">
                     <div class="card-body text-center">
                       <div class="display-6 fw-bold text-info mb-2">{{ insights.market_overview.average_pe_ratio | number:'1.1-1' }}</div>
-                      <div class="text-muted-custom">Average P/E Ratio</div>
+                      <div class="text-muted-custom">{{ languageService.getTranslation('averagePERatio') }}</div>
                     </div>
                   </div>
                 </div>
@@ -61,7 +61,7 @@ import { LanguageService } from '../../services/language.service';
                   <div class="card shadow-custom h-100 border-0">
                     <div class="card-body text-center">
                       <div class="display-6 fw-bold text-warning mb-2">{{ formatNumber(insights.market_overview.average_volume) }}</div>
-                      <div class="text-muted-custom">Average Volume</div>
+                      <div class="text-muted-custom">{{ languageService.getTranslation('averageVolume') }}</div>
                     </div>
                   </div>
                 </div>
@@ -91,7 +91,7 @@ import { LanguageService } from '../../services/language.service';
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
                           <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <small class="text-muted-custom">{{ stock.name || languageService.getTranslation('unknown') }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -100,13 +100,13 @@ import { LanguageService } from '../../services/language.service';
                           <i class="bi" [class.bi-arrow-up]="stock.change_percent > 0" [class.bi-arrow-down]="stock.change_percent <= 0"></i>
                           {{ stock.change_percent | number:'1.2-2' }}%
                         </div>
-                        <div class="small text-muted">Rating: {{ stock.technical_rating | number:'1.2-2' }}</div>
+                        <div class="small text-muted">{{ languageService.getTranslation('rating') }}: {{ stock.technical_rating | number:'1.2-2' }}</div>
                       </div>
                     </div>
                   </div>
                   <div class="text-center p-3" *ngIf="!insights.top_bullish || insights.top_bullish.length === 0">
                     <i class="bi bi-info-circle text-muted"></i>
-                    <p class="text-muted mb-0">No bullish stocks available at the moment.</p>
+                    <p class="text-muted mb-0">{{ languageService.getTranslation('noPositiveMovers') }}</p>
                   </div>
                 </div>
               </div>
@@ -132,7 +132,7 @@ import { LanguageService } from '../../services/language.service';
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
                           <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <small class="text-muted-custom">{{ stock.name || languageService.getTranslation('unknown') }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -141,7 +141,7 @@ import { LanguageService } from '../../services/language.service';
                           <i class="bi" [class.bi-arrow-up]="stock.change_percent > 0" [class.bi-arrow-down]="stock.change_percent <= 0"></i>
                           {{ stock.change_percent | number:'1.2-2' }}%
                         </div>
-                        <div class="small text-muted">Rating: {{ stock.technical_rating | number:'1.2-2' }}</div>
+                        <div class="small text-muted">{{ languageService.getTranslation('rating') }}: {{ stock.technical_rating | number:'1.2-2' }}</div>
                       </div>
                     </div>
                   </div>
@@ -242,8 +242,8 @@ import { LanguageService } from '../../services/language.service';
                       </div>
                       <div class="text-end">
                         <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                        <div class="small text-muted">Volume: {{ formatNumber(stock.volume) }}</div>
-                        <div class="small text-muted">Rel Vol: {{ stock.relative_volume | number:'1.1-1' }}x</div>
+                        <div class="small text-muted">{{ languageService.getTranslation('volumeShort') }}: {{ formatNumber(stock.volume) }}</div>
+                        <div class="small text-muted">{{ languageService.getTranslation('relVol') }}: {{ stock.relative_volume | number:'1.1-1' }}x</div>
                       </div>
                     </div>
                   </div>
@@ -257,7 +257,7 @@ import { LanguageService } from '../../services/language.service';
                 <div class="card-header bg-dark text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-building me-2"></i>
-                    Top Sectors Change
+                    {{ languageService.getTranslation('topSectorsChange') }}
                   </h5>
                 </div>
                 <div class="card-body p-0">
@@ -266,7 +266,7 @@ import { LanguageService } from '../../services/language.service';
                          *ngFor="let sector of insights.top_sectors_change; let i = index">
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
-                        <div class="fw-semibold text-primary-custom">{{ sector.sector || 'Unknown' }}</div>
+                        <div class="fw-semibold text-primary-custom">{{ sector.sector || languageService.getTranslation('unknown') }}</div>
                       </div>
                       <div class="text-end">
                         <span class="badge" [class.bg-success]="sector.change > 0" [class.bg-danger]="sector.change <= 0">
@@ -278,7 +278,7 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                   <div class="text-center p-3" *ngIf="!insights.top_sectors_change || insights.top_sectors_change.length === 0">
                     <i class="bi bi-info-circle text-muted"></i>
-                    <p class="text-muted mb-0">No sector data available at the moment.</p>
+                    <p class="text-muted mb-0">{{ languageService.getTranslation('noSectorData') }}</p>
                   </div>
                 </div>
               </div>
@@ -290,7 +290,7 @@ import { LanguageService } from '../../services/language.service';
                 <div class="card-header bg-success text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-graph-up me-2"></i>
-                    Top +ve Movers
+                    {{ languageService.getTranslation('topPositiveMovers') }}
                   </h5>
                 </div>
                 <div class="card-body p-0">
@@ -318,7 +318,7 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                   <div class="text-center p-3" *ngIf="!insights.top_positive_movers || insights.top_positive_movers.length === 0">
                     <i class="bi bi-info-circle text-muted"></i>
-                    <p class="text-muted mb-0">No positive movers available at the moment.</p>
+                    <p class="text-muted mb-0">{{ languageService.getTranslation('noPositiveMovers') }}</p>
                   </div>
                 </div>
               </div>
@@ -330,7 +330,7 @@ import { LanguageService } from '../../services/language.service';
                 <div class="card-header bg-danger text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-graph-down me-2"></i>
-                    Top -ve Movers
+                    {{ languageService.getTranslation('topNegativeMovers') }}
                   </h5>
                 </div>
                 <div class="card-body p-0">
@@ -358,7 +358,7 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                   <div class="text-center p-3" *ngIf="!insights.top_negative_movers || insights.top_negative_movers.length === 0">
                     <i class="bi bi-info-circle text-muted"></i>
-                    <p class="text-muted mb-0">No negative movers available at the moment.</p>
+                    <p class="text-muted mb-0">{{ languageService.getTranslation('noNegativeMovers') }}</p>
                   </div>
                 </div>
               </div>
