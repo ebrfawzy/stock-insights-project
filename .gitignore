@@ -10,8 +10,7 @@ venv/
 .angular/
 *.sqlite3
 *.pyc
-__pycache__/*
-
+__pycache__/
 # Node
 node_modules/
 npm-debug.log

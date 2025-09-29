@@ -7,85 +7,21 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import json
-import threading
-import time
 
 
 class StockDataFetcher:
     @staticmethod
-    def get_sample_data():
-        """Return sample stock data for fallback"""
-        sample_data = {
-            'Symbol': ['COMI', 'ORAS', 'EFID', 'PHDC', 'SWDY'],
-            'Name': [
-                'Commercial International Bank',
-                'Orascom Construction',
-                'EFG Hermes Holding',
-                'Palm Hills Development',
-                'El Sewedy Electric'
-            ],
-            'Price': [45.50, 12.80, 18.90, 2.15, 25.40],
-            'Change %': [2.5, -1.2, 4.8, 0.5, 3.2],
-            'Volume': [1500000, 800000, 1200000, 2000000, 950000],
-            'Market Capitalization': [50000000000, 8000000000, 12000000000, 3500000000, 15000000000],
-            'Price to Earnings Ratio (TTM)': [8.5, 12.3, 15.2, 6.8, 9.8],
-            'Technical Rating': [1.2, -0.8, 2.1, 0.3, 1.5],
-            'Performance (Week)': [3.2, -2.1, 6.5, 1.2, 4.8],
-            'Performance (Month)': [8.5, -5.3, 12.8, 3.5, 9.2],
-            'Performance (Year)': [15.3, 8.7, 22.5, -5.2, 18.7],
-            'Sector': ['Financial Services', 'Industrials', 'Financial Services', 'Real Estate', 'Industrials'],
-            'Industry': ['Banking', 'Construction', 'Investment Banking', 'Real Estate', 'Electrical Equipment']
-        }
-        return pd.DataFrame(sample_data)
-
-    @staticmethod
     def fetch_egypt_stocks():
-        """Fetch Egyptian stock market data with timeout and fallback"""
-        def fetch_data():
-            """Internal function to fetch data"""
-            try:
-                ss = tvs.StockScreener()
-                ss.set_markets(tvs.Market.EGYPT)
-                ss.set_range(0, 500)
-                return ss.get()
-            except Exception as e:
-                print(f"Error in fetch_data: {e}")
-                return None
-
-        print("Attempting to fetch stock data from tvscreener...")
-        
-        # Use threading to implement timeout
-        result = [None]
-        exception = [None]
-        
-        def target():
-            try:
-                result[0] = fetch_data()
-            except Exception as e:
-                exception[0] = e
-        
-        thread = threading.Thread(target=target)
-        thread.daemon = True
-        thread.start()
-        thread.join(timeout=10)  # 10-second timeout
-        
-        if thread.is_alive():
-            print("tvscreener request timed out after 10 seconds")
-            print("Using sample data as fallback...")
-            return StockDataFetcher.get_sample_data()
-        
-        if exception[0]:
-            print(f"Error fetching stock data from tvscreener: {exception[0]}")
-            print("Using sample data as fallback...")
-            return StockDataFetcher.get_sample_data()
-        
-        if result[0] is not None and not result[0].empty:
-            print(f"Successfully fetched {len(result[0])} stocks from tvscreener")
-            return result[0]
-        else:
-            print("No data received from tvscreener")
-            print("Using sample data as fallback...")
-            return StockDataFetcher.get_sample_data()
+        """Fetch Egyptian stock market data"""
+        try:
+            ss = tvs.StockScreener()
+            ss.set_markets(tvs.Market.EGYPT)
+            ss.set_range(0, 500)
+            stocks_df = ss.get()
+            return stocks_df
+        except Exception as e:
+            print(f"Error fetching stock data: {e}")
+            return pd.DataFrame()
 
     @staticmethod
     def process_stock_insights(stocks_df):
