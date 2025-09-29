@@ -9,7 +9,8 @@ venv/
 /bazel-out
 .angular/
 *.sqlite3
-
+*.pyc
+__pycache__/
 # Node
 node_modules/
 npm-debug.log

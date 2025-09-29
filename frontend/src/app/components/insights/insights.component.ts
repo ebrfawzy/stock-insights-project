@@ -9,316 +9,425 @@ import { LanguageService } from '../../services/language.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="insights-container" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
+    <div class="bg-secondary-custom min-vh-100" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
 
       <!-- Main Content -->
-      <main class="main-content">
-        <div class="container">
+      <main class="py-4">
+        <div class="container-fluid">
           <!-- Page Header -->
-          <div class="page-header">
-            <h1>{{ languageService.getTranslation('marketInsights') }}</h1>
-            <p>Comprehensive analysis of the Egyptian stock market</p>
-            <button class="btn btn-primary" (click)="refreshData()" [disabled]="loading">
-              {{ loading ? languageService.getTranslation('loading') : languageService.getTranslation('refresh') }}
-            </button>
+          <div class="row mb-4">
+            <div class="col-lg-8">
+              <h1 class="display-5 text-primary-custom mb-2">{{ languageService.getTranslation('marketInsights') }}</h1>
+              <p class="lead text-muted-custom">Comprehensive analysis of the Egyptian stock market</p>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
+              <button class="btn btn-primary btn-lg" (click)="refreshData()" [disabled]="loading">
+                <i class="bi bi-arrow-clockwise me-2"></i>
+                {{ loading ? languageService.getTranslation('loading') : languageService.getTranslation('refresh') }}
+              </button>
+            </div>
           </div>
 
           <!-- Market Overview -->
-          <div class="market-overview" *ngIf="insights">
-            <h2>Market Overview</h2>
-            <div class="overview-cards">
-              <div class="overview-card">
-                <div class="card-value">{{ insights.total_stocks }}</div>
-                <div class="card-label">Total Stocks</div>
-              </div>
-              <div class="overview-card">
-                <div class="card-value">{{ formatCurrency(insights.market_overview.total_market_cap) }}</div>
-                <div class="card-label">Total Market Cap</div>
-              </div>
-              <div class="overview-card">
-                <div class="card-value">{{ insights.market_overview.average_pe_ratio | number:'1.1-1' }}</div>
-                <div class="card-label">Average P/E Ratio</div>
-              </div>
-              <div class="overview-card">
-                <div class="card-value">{{ formatNumber(insights.market_overview.average_volume) }}</div>
-                <div class="card-label">Average Volume</div>
+          <div class="row mb-5" *ngIf="insights">
+            <div class="col-12">
+              <h2 class="text-primary-custom mb-4">Market Overview</h2>
+              <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                  <div class="card shadow-custom h-100 border-0">
+                    <div class="card-body text-center">
+                      <div class="display-6 fw-bold text-primary mb-2">{{ insights.total_stocks }}</div>
+                      <div class="text-muted-custom">Total Stocks</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div class="card shadow-custom h-100 border-0">
+                    <div class="card-body text-center">
+                      <div class="display-6 fw-bold text-success mb-2">{{ formatCurrency(insights.market_overview.total_market_cap) }}</div>
+                      <div class="text-muted-custom">Total Market Cap</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div class="card shadow-custom h-100 border-0">
+                    <div class="card-body text-center">
+                      <div class="display-6 fw-bold text-info mb-2">{{ insights.market_overview.average_pe_ratio | number:'1.1-1' }}</div>
+                      <div class="text-muted-custom">Average P/E Ratio</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <div class="card shadow-custom h-100 border-0">
+                    <div class="card-body text-center">
+                      <div class="display-6 fw-bold text-warning mb-2">{{ formatNumber(insights.market_overview.average_volume) }}</div>
+                      <div class="text-muted-custom">Average Volume</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Insights Grid -->
-          <div class="insights-grid" *ngIf="insights && !loading">
+          <div class="row g-4" *ngIf="insights && !loading">
             <!-- Top Bullish Stocks -->
-            <div class="insight-section">
-              <h3 class="section-title bullish">
-                <span class="icon">📈</span>
-                {{ languageService.getTranslation('topBullish') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.top_bullish; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="change positive" *ngIf="stock.change_percent > 0">
-                      +{{ stock.change_percent | number:'1.2-2' }}%
-                    </div>
-                    <div class="change negative" *ngIf="stock.change_percent <= 0">
-                      {{ stock.change_percent | number:'1.2-2' }}%
-                    </div>
-                    <div class="technical-rating">Technical Rating: {{ stock.technical_rating | number:'1.2-2' }}</div>
-                  </div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-success text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-graph-up me-2"></i>
+                    {{ languageService.getTranslation('topBullish') }}
+                  </h5>
                 </div>
-                <div class="empty-state" *ngIf="!insights.top_bullish || insights.top_bullish.length === 0">
-                  <p>No bullish stocks available at the moment.</p>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.top_bullish; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small" [class.text-success]="stock.change_percent > 0" [class.text-danger]="stock.change_percent <= 0">
+                          <i class="bi" [class.bi-arrow-up]="stock.change_percent > 0" [class.bi-arrow-down]="stock.change_percent <= 0"></i>
+                          {{ stock.change_percent | number:'1.2-2' }}%
+                        </div>
+                        <div class="small text-muted">Rating: {{ stock.technical_rating | number:'1.2-2' }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center p-3" *ngIf="!insights.top_bullish || insights.top_bullish.length === 0">
+                    <i class="bi bi-info-circle text-muted"></i>
+                    <p class="text-muted mb-0">No bullish stocks available at the moment.</p>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Top Bearish Stocks -->
-            <div class="insight-section">
-              <h3 class="section-title bearish">
-                <span class="icon">📉</span>
-                {{ languageService.getTranslation('topBearish') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.top_bearish; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="change positive" *ngIf="stock.change_percent > 0">
-                      +{{ stock.change_percent | number:'1.2-2' }}%
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-danger text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-graph-down me-2"></i>
+                    {{ languageService.getTranslation('topBearish') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.top_bearish; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small" [class.text-success]="stock.change_percent > 0" [class.text-danger]="stock.change_percent <= 0">
+                          <i class="bi" [class.bi-arrow-up]="stock.change_percent > 0" [class.bi-arrow-down]="stock.change_percent <= 0"></i>
+                          {{ stock.change_percent | number:'1.2-2' }}%
+                        </div>
+                        <div class="small text-muted">Rating: {{ stock.technical_rating | number:'1.2-2' }}</div>
+                      </div>
                     </div>
-                    <div class="change negative" *ngIf="stock.change_percent <= 0">
-                      {{ stock.change_percent | number:'1.2-2' }}%
-                    </div>
-                    <div class="technical-rating">Technical Rating: {{ stock.technical_rating | number:'1.2-2' }}</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Break -->
-            <div class="section-break"></div>
-
             <!-- Overpriced Stocks -->
-            <div class="insight-section two-sections">
-              <h3 class="section-title overpriced">
-                <span class="icon">💰</span>
-                {{ languageService.getTranslation('overpriced') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.overpriced; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="pe-ratio">P/E (TTM): {{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</div>
-                    <div class="pb-ratio">P/B (MRQ): {{ stock.price_to_book_mrq | number:'1.1-1' }}</div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-warning text-dark">
+                  <h5 class="mb-0">
+                    <i class="bi bi-cash-coin me-2"></i>
+                    {{ languageService.getTranslation('overpriced') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.overpriced; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">P/E: {{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</div>
+                        <div class="small text-muted">P/B: {{ stock.price_to_book_mrq | number:'1.1-1' }}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Underpriced Stocks -->
-            <div class="insight-section two-sections">
-              <h3 class="section-title underpriced">
-                <span class="icon">💎</span>
-                {{ languageService.getTranslation('underpriced') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.underpriced; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="pe-ratio">P/E (TTM): {{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</div>
-                    <div class="pb-ratio">P/B (MRQ): {{ stock.price_to_book_mrq | number:'1.1-1' }}</div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-info text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-gem me-2"></i>
+                    {{ languageService.getTranslation('underpriced') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.underpriced; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">P/E: {{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</div>
+                        <div class="small text-muted">P/B: {{ stock.price_to_book_mrq | number:'1.1-1' }}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Break -->
-            <div class="section-break"></div>
-
             <!-- Volume Leaders -->
-            <div class="insight-section">
-              <h3 class="section-title volume">
-                <span class="icon">📊</span>
-                {{ languageService.getTranslation('volumeLeaders') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.volume_leaders; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="volume">Volume: {{ formatNumber(stock.volume) }}</div>
-                    <div class="relative-volume">Relative Volume: {{ stock.relative_volume | number:'1.1-1' }}x</div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-secondary text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-bar-chart me-2"></i>
+                    {{ languageService.getTranslation('volumeLeaders') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.volume_leaders; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">Volume: {{ formatNumber(stock.volume) }}</div>
+                        <div class="small text-muted">Rel Vol: {{ stock.relative_volume | number:'1.1-1' }}x</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Top Sectors Change -->
-            <div class="insight-section sectors">
-              <h3 class="section-title sectors">
-                <span class="icon">🏢</span>
-                Top Sectors Change
-              </h3>
-              <div class="sector-list">
-                <div class="sector-item" *ngFor="let sector of insights.top_sectors_change; let i = index">
-                  <div class="sector-rank">{{ i + 1 }}</div>
-                  <div class="sector-name">{{ sector.sector || 'Unknown' }}</div>
-                  <div class="sector-change" [class.positive]="sector.change > 0" [class.negative]="sector.change <= 0">
-                    {{ sector.change | number:'1.2-2' }}%
-                  </div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-dark text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-building me-2"></i>
+                    Top Sectors Change
+                  </h5>
                 </div>
-                <div class="empty-state" *ngIf="!insights.top_sectors_change || insights.top_sectors_change.length === 0">
-                  <p>No sector data available at the moment.</p>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let sector of insights.top_sectors_change; let i = index">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div class="fw-semibold text-primary-custom">{{ sector.sector || 'Unknown' }}</div>
+                      </div>
+                      <div class="text-end">
+                        <span class="badge" [class.bg-success]="sector.change > 0" [class.bg-danger]="sector.change <= 0">
+                          <i class="bi" [class.bi-arrow-up]="sector.change > 0" [class.bi-arrow-down]="sector.change <= 0"></i>
+                          {{ sector.change | number:'1.2-2' }}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center p-3" *ngIf="!insights.top_sectors_change || insights.top_sectors_change.length === 0">
+                    <i class="bi bi-info-circle text-muted"></i>
+                    <p class="text-muted mb-0">No sector data available at the moment.</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Break -->
-            <div class="section-break"></div>
-
             <!-- Top +ve Movers -->
-            <div class="insight-section two-sections">
-              <h3 class="section-title positive-movers">
-                <span class="icon">📈</span>
-                Top +ve Movers
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.top_positive_movers; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="change positive" *ngIf="stock.change_percent > 0">
-                      +{{ stock.change_percent | number:'1.2-2' }}%
-                    </div>
-                    <div class="change negative" *ngIf="stock.change_percent <= 0">
-                      {{ stock.change_percent | number:'1.2-2' }}%
-                    </div>
-                  </div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-success text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-graph-up me-2"></i>
+                    Top +ve Movers
+                  </h5>
                 </div>
-                <div class="empty-state" *ngIf="!insights.top_positive_movers || insights.top_positive_movers.length === 0">
-                  <p>No positive movers available at the moment.</p>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.top_positive_movers; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small" [class.text-success]="stock.change_percent > 0" [class.text-danger]="stock.change_percent <= 0">
+                          <i class="bi" [class.bi-arrow-up]="stock.change_percent > 0" [class.bi-arrow-down]="stock.change_percent <= 0"></i>
+                          {{ stock.change_percent | number:'1.2-2' }}%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center p-3" *ngIf="!insights.top_positive_movers || insights.top_positive_movers.length === 0">
+                    <i class="bi bi-info-circle text-muted"></i>
+                    <p class="text-muted mb-0">No positive movers available at the moment.</p>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Top -ve Movers -->
-            <div class="insight-section two-sections">
-              <h3 class="section-title negative-movers">
-                <span class="icon">📉</span>
-                Top -ve Movers
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.top_negative_movers; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="change positive" *ngIf="stock.change_percent > 0">
-                      +{{ stock.change_percent | number:'1.2-2' }}%
-                    </div>
-                    <div class="change negative" *ngIf="stock.change_percent <= 0">
-                      {{ stock.change_percent | number:'1.2-2' }}%
-                    </div>
-                  </div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-danger text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-graph-down me-2"></i>
+                    Top -ve Movers
+                  </h5>
                 </div>
-                <div class="empty-state" *ngIf="!insights.top_negative_movers || insights.top_negative_movers.length === 0">
-                  <p>No negative movers available at the moment.</p>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.top_negative_movers; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small" [class.text-success]="stock.change_percent > 0" [class.text-danger]="stock.change_percent <= 0">
+                          <i class="bi" [class.bi-arrow-up]="stock.change_percent > 0" [class.bi-arrow-down]="stock.change_percent <= 0"></i>
+                          {{ stock.change_percent | number:'1.2-2' }}%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center p-3" *ngIf="!insights.top_negative_movers || insights.top_negative_movers.length === 0">
+                    <i class="bi bi-info-circle text-muted"></i>
+                    <p class="text-muted mb-0">No negative movers available at the moment.</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Break -->
-            <div class="section-break"></div>
-
             <!-- Dividend Stocks -->
-            <div class="insight-section">
-              <h3 class="section-title dividend">
-                <span class="icon">💵</span>
-                {{ languageService.getTranslation('dividendStocks') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.dividend_stocks; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="dividend">Dividend Yield Forward: {{ stock.dividend_yield_forward | number:'1.2-2' }}%</div>
-                    <div class="dividends-per-share">Dividends per Share (FY): {{ stock.dividends_per_share_fy | currency:'EGP':'symbol':'1.2-2' }}</div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-primary text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-cash-stack me-2"></i>
+                    {{ languageService.getTranslation('dividendStocks') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.dividend_stocks; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">Yield: {{ stock.dividend_yield_forward | number:'1.2-2' }}%</div>
+                        <div class="small text-muted">DPS: {{ stock.dividends_per_share_fy | currency:'EGP':'symbol':'1.2-2' }}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Momentum Stocks -->
-            <div class="insight-section">
-              <h3 class="section-title momentum">
-                <span class="icon">⚡</span>
-                {{ languageService.getTranslation('momentumStocks') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.momentum_stocks; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="momentum">Momentum (10): {{ stock.momentum_10 | number:'1.2-2' }}</div>
-                    <div class="change" [class.positive]="stock.change_percent > 0" [class.negative]="stock.change_percent <= 0">
-                      Change: {{ stock.change_percent | number:'1.2-2' }}%
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-warning text-dark">
+                  <h5 class="mb-0">
+                    <i class="bi bi-lightning me-2"></i>
+                    {{ languageService.getTranslation('momentumStocks') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.momentum_stocks; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">Momentum: {{ stock.momentum_10 | number:'1.2-2' }}</div>
+                        <div class="small" [class.text-success]="stock.change_percent > 0" [class.text-danger]="stock.change_percent <= 0">
+                          Change: {{ stock.change_percent | number:'1.2-2' }}%
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -326,99 +435,136 @@ import { LanguageService } from '../../services/language.service';
             </div>
 
             <!-- Growth Stocks -->
-            <div class="insight-section">
-              <h3 class="section-title growth">
-                <span class="icon">🚀</span>
-                {{ languageService.getTranslation('growthStocks') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.growth_stocks; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="growth">Revenue (TTM YoY Growth): {{ stock.revenue_ttm_yoy_growth | number:'1.2-2' }}%</div>
-                    <div class="eps-growth">EPS Diluted (TTM YoY Growth): {{ stock.eps_diluted_ttm_yoy_growth | number:'1.2-2' }}%</div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-success text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-rocket-takeoff me-2"></i>
+                    {{ languageService.getTranslation('growthStocks') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.growth_stocks; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">Revenue Growth: {{ stock.revenue_ttm_yoy_growth | number:'1.2-2' }}%</div>
+                        <div class="small text-muted">EPS Growth: {{ stock.eps_diluted_ttm_yoy_growth | number:'1.2-2' }}%</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Break -->
-            <div class="section-break"></div>
-
             <!-- Best Short Term -->
-            <div class="insight-section">
-              <h3 class="section-title short-term">
-                <span class="icon">⚡</span>
-                {{ languageService.getTranslation('bestShortTerm') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.best_short_term; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="performance">Weekly Performance: {{ stock.weekly_performance | number:'1.2-2' }}%</div>
-                    <div class="rsi">RSI (7): {{ stock.relative_strength_index_7 | number:'1.1-1' }}</div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-info text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-speedometer2 me-2"></i>
+                    {{ languageService.getTranslation('bestShortTerm') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.best_short_term; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">Weekly: {{ stock.weekly_performance | number:'1.2-2' }}%</div>
+                        <div class="small text-muted">RSI (7): {{ stock.relative_strength_index_7 | number:'1.1-1' }}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Best Medium Term -->
-            <div class="insight-section">
-              <h3 class="section-title medium-term">
-                <span class="icon">📅</span>
-                {{ languageService.getTranslation('bestMediumTerm') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.best_medium_term; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="performance">Monthly Performance: {{ stock.monthly_performance | number:'1.2-2' }}%</div>
-                    <div class="change-1m" *ngIf="stock.change_1m_percent">Change 1M: {{ stock.change_1m_percent | number:'1.2-2' }}%</div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-secondary text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-calendar-month me-2"></i>
+                    {{ languageService.getTranslation('bestMediumTerm') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.best_medium_term; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">Monthly: {{ stock.monthly_performance | number:'1.2-2' }}%</div>
+                        <div class="small text-muted" *ngIf="stock.change_1m_percent">1M Change: {{ stock.change_1m_percent | number:'1.2-2' }}%</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Best Long Term -->
-            <div class="insight-section">
-              <h3 class="section-title long-term">
-                <span class="icon">🎯</span>
-                {{ languageService.getTranslation('bestLongTerm') }}
-              </h3>
-              <div class="stock-list">
-                <div class="stock-item" *ngFor="let stock of insights.best_long_term; let i = index"
-                     [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
-                     [class.disabled]="!stock.symbol || stock.symbol === 'N/A'">
-                  <div class="stock-rank">{{ i + 1 }}</div>
-                  <div class="stock-info">
-                    <div class="stock-symbol">{{ stock.symbol || 'N/A' }}</div>
-                    <div class="stock-name">{{ stock.name || 'Unknown' }}</div>
-                  </div>
-                  <div class="stock-price">
-                    <div class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
-                    <div class="performance">Yearly Performance: {{ stock.yearly_performance | number:'1.2-2' }}%</div>
-                    <div class="roe">ROE (TTM): {{ stock.return_on_equity_ttm | number:'1.1-1' }}%</div>
+            <div class="col-lg-6">
+              <div class="card shadow-custom h-100">
+                <div class="card-header bg-dark text-white">
+                  <h5 class="mb-0">
+                    <i class="bi bi-bullseye me-2"></i>
+                    {{ languageService.getTranslation('bestLongTerm') }}
+                  </h5>
+                </div>
+                <div class="card-body p-0">
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                         *ngFor="let stock of insights.best_long_term; let i = index"
+                         [routerLink]="stock.symbol && stock.symbol !== 'N/A' ? ['/stocks', stock.symbol] : null"
+                         [class.disabled]="!stock.symbol || stock.symbol === 'N/A'"
+                         style="cursor: pointer;">
+                      <div class="d-flex align-items-center">
+                        <span class="badge bg-primary me-3">{{ i + 1 }}</span>
+                        <div>
+                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                        </div>
+                      </div>
+                      <div class="text-end">
+                        <div class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</div>
+                        <div class="small text-muted">Yearly: {{ stock.yearly_performance | number:'1.2-2' }}%</div>
+                        <div class="small text-muted">ROE: {{ stock.return_on_equity_ttm | number:'1.1-1' }}%</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -426,18 +572,20 @@ import { LanguageService } from '../../services/language.service';
           </div>
 
           <!-- Loading State -->
-          <div class="loading-state" *ngIf="loading">
-            <div class="spinner"></div>
-            <p>{{ languageService.getTranslation('loading') }}</p>
+          <div class="text-center py-5" *ngIf="loading">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted-custom">{{ languageService.getTranslation('loading') }}</p>
           </div>
 
           <!-- Error State -->
-          <div class="error-state" *ngIf="error">
-            <div class="error-icon">⚠️</div>
-            <h3>{{ languageService.getTranslation('error') }}</h3>
-            <p>{{ error }}</p>
-            <button class="btn btn-primary" (click)="refreshData()">
-              {{ languageService.getTranslation('refresh') }}
+          <div class="alert alert-danger text-center" *ngIf="error">
+            <i class="bi bi-exclamation-triangle-fill fs-1 text-danger mb-3"></i>
+            <h4 class="alert-heading">{{ languageService.getTranslation('error') }}</h4>
+            <p class="mb-3">{{ error }}</p>
+            <button class="btn btn-danger" (click)="refreshData()">
+              <i class="bi bi-arrow-clockwise me-1"></i>{{ languageService.getTranslation('refresh') }}
             </button>
           </div>
         </div>

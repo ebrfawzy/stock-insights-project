@@ -10,97 +10,103 @@ import { LanguageService } from '../../services/language.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
-    <div class="stocks-container" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
+    <div class="bg-secondary-custom min-vh-100" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
 
       <!-- Main Content -->
-      <main class="main-content">
-        <div class="container">
+      <main class="py-4">
+        <div class="container-fluid">
           <!-- Page Header -->
-          <div class="page-header">
-            <h1>Stock List</h1>
-            <p>Browse and analyze all Egyptian stocks</p>
+          <div class="row mb-4">
+            <div class="col">
+              <h1 class="display-5 text-primary-custom mb-2">Stock List</h1>
+              <p class="lead text-muted-custom">Browse and analyze all Egyptian stocks</p>
+            </div>
           </div>
 
           <!-- Filters -->
-          <div class="filters-section">
-            <div class="filters-grid">
-              <div class="filter-group">
-                <label>{{ languageService.getTranslation('search') }}:</label>
-                <input 
-                  type="text" 
-                  [(ngModel)]="searchTerm" 
-                  (input)="onSearchChange()"
-                  placeholder="Search by symbol or name..."
-                  class="search-input">
-              </div>
-              <div class="filter-group">
-                <label>Sector:</label>
-                <select [(ngModel)]="selectedSector" (change)="onFilterChange()" class="filter-select">
-                  <option value="">All Sectors</option>
-                  <option *ngFor="let sector of sectors" [value]="sector">{{ sector }}</option>
-                </select>
-              </div>
-              <div class="filter-group">
-                <label>Industry:</label>
-                <select [(ngModel)]="selectedIndustry" (change)="onFilterChange()" class="filter-select">
-                  <option value="">All Industries</option>
-                  <option *ngFor="let industry of industries" [value]="industry">{{ industry }}</option>
-                </select>
-              </div>
-              <div class="filter-group">
-                <label>Sort by:</label>
-                <select [(ngModel)]="sortBy" (change)="onSortChange()" class="filter-select">
-                  <option value="market_capitalization">Market Cap</option>
-                  <option value="price">Price</option>
-                  <option value="change_percent">Change %</option>
-                  <option value="volume">Volume</option>
-                  <option value="symbol">Symbol</option>
-                </select>
+          <div class="card shadow-custom mb-4">
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <label class="form-label text-primary-custom fw-semibold">{{ languageService.getTranslation('search') }}:</label>
+                  <input 
+                    type="text" 
+                    [(ngModel)]="searchTerm" 
+                    (input)="onSearchChange()"
+                    placeholder="Search by symbol or name..."
+                    class="form-control">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label text-primary-custom fw-semibold">Sector:</label>
+                  <select [(ngModel)]="selectedSector" (change)="onFilterChange()" class="form-select">
+                    <option value="">All Sectors</option>
+                    <option *ngFor="let sector of sectors" [value]="sector">{{ sector }}</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label text-primary-custom fw-semibold">Industry:</label>
+                  <select [(ngModel)]="selectedIndustry" (change)="onFilterChange()" class="form-select">
+                    <option value="">All Industries</option>
+                    <option *ngFor="let industry of industries" [value]="industry">{{ industry }}</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label text-primary-custom fw-semibold">Sort by:</label>
+                  <select [(ngModel)]="sortBy" (change)="onSortChange()" class="form-select">
+                    <option value="market_capitalization">Market Cap</option>
+                    <option value="price">Price</option>
+                    <option value="change_percent">Change %</option>
+                    <option value="volume">Volume</option>
+                    <option value="symbol">Symbol</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Stocks Table -->
-          <div class="stocks-table-container">
-            <div class="table-header">
-              <h2>Stocks ({{ filteredStocks.length }})</h2>
+          <div class="card shadow-custom">
+            <div class="card-header d-flex justify-content-between align-items-center bg-primary-custom">
+              <h4 class="mb-0 text-primary-custom">Stocks ({{ filteredStocks.length }})</h4>
               <button class="btn btn-primary" (click)="refreshData()" [disabled]="loading">
+                <i class="bi bi-arrow-clockwise me-1"></i>
                 {{ loading ? languageService.getTranslation('loading') : languageService.getTranslation('refresh') }}
               </button>
             </div>
 
-            <div class="table-wrapper">
-              <table class="stocks-table">
-                <thead>
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead class="table-light">
                   <tr>
-                    <th>Rank</th>
-                    <th>Symbol</th>
-                    <th>Name</th>
-                    <th>{{ languageService.getTranslation('price') }}</th>
-                    <th>{{ languageService.getTranslation('change') }}</th>
-                    <th>{{ languageService.getTranslation('volume') }}</th>
-                    <th>{{ languageService.getTranslation('marketCap') }}</th>
-                    <th>{{ languageService.getTranslation('peRatio') }}</th>
-                    <th>Sector</th>
-                    <th>Actions</th>
+                    <th class="text-primary-custom">#</th>
+                    <th class="text-primary-custom">Symbol</th>
+                    <th class="text-primary-custom">Name</th>
+                    <th class="text-primary-custom">{{ languageService.getTranslation('price') }}</th>
+                    <th class="text-primary-custom">{{ languageService.getTranslation('change') }}</th>
+                    <th class="text-primary-custom">{{ languageService.getTranslation('volume') }}</th>
+                    <th class="text-primary-custom">{{ languageService.getTranslation('marketCap') }}</th>
+                    <th class="text-primary-custom">{{ languageService.getTranslation('peRatio') }}</th>
+                    <th class="text-primary-custom">Sector</th>
+                    <th class="text-primary-custom">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let stock of paginatedStocks; let i = index" class="stock-row">
-                    <td class="rank">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
-                    <td class="symbol">{{ stock.symbol }}</td>
-                    <td class="name">{{ stock.name }}</td>
-                    <td class="price">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</td>
-                    <td class="change" [class.positive]="stock.change_percent > 0" [class.negative]="stock.change_percent <= 0">
+                  <tr *ngFor="let stock of paginatedStocks; let i = index">
+                    <td class="text-muted-custom">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+                    <td class="fw-bold text-primary-custom">{{ stock.symbol }}</td>
+                    <td class="text-secondary-custom">{{ stock.name }}</td>
+                    <td class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</td>
+                    <td [class.text-success]="stock.change_percent > 0" [class.text-danger]="stock.change_percent <= 0" class="fw-semibold">
+                      <i class="bi" [class.bi-arrow-up]="stock.change_percent > 0" [class.bi-arrow-down]="stock.change_percent <= 0"></i>
                       {{ stock.change_percent | number:'1.2-2' }}%
                     </td>
-                    <td class="volume">{{ formatNumber(stock.volume) }}</td>
-                    <td class="market-cap">{{ formatCurrency(stock.market_capitalization) }}</td>
-                    <td class="pe-ratio">{{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</td>
-                    <td class="sector">{{ stock.sector }}</td>
-                    <td class="actions">
-                      <button class="btn btn-sm btn-primary" [routerLink]="['/stocks', stock.symbol]">
-                        {{ languageService.getTranslation('viewDetails') }}
+                    <td class="text-muted-custom">{{ formatNumber(stock.volume) }}</td>
+                    <td class="text-muted-custom">{{ formatCurrency(stock.market_capitalization) }}</td>
+                    <td class="text-muted-custom">{{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</td>
+                    <td><span class="badge bg-secondary">{{ stock.sector }}</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" [routerLink]="['/stocks', stock.symbol]">
+                        <i class="bi bi-eye me-1"></i>{{ languageService.getTranslation('viewDetails') }}
                       </button>
                     </td>
                   </tr>
@@ -109,56 +115,56 @@ import { LanguageService } from '../../services/language.service';
             </div>
 
             <!-- Pagination -->
-            <div class="pagination" *ngIf="totalPages > 1">
-              <button 
-                class="btn btn-sm" 
-                [disabled]="currentPage === 1" 
-                (click)="goToPage(currentPage - 1)">
-                Previous
-              </button>
-              
-              <div class="page-numbers">
-                <button 
-                  *ngFor="let page of getPageNumbers()" 
-                  class="btn btn-sm"
-                  [class.active]="page === currentPage"
-                  (click)="goToPage(page)">
-                  {{ page }}
-                </button>
-              </div>
-              
-              <button 
-                class="btn btn-sm" 
-                [disabled]="currentPage === totalPages" 
-                (click)="goToPage(currentPage + 1)">
-                Next
-              </button>
+            <div class="card-footer" *ngIf="totalPages > 1">
+              <nav aria-label="Stock pagination">
+                <ul class="pagination justify-content-center mb-0">
+                  <li class="page-item" [class.disabled]="currentPage === 1">
+                    <button class="page-link" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
+                      <i class="bi bi-chevron-left"></i> Previous
+                    </button>
+                  </li>
+                  
+                  <li class="page-item" *ngFor="let page of getPageNumbers()" [class.active]="page === currentPage">
+                    <button class="page-link" (click)="goToPage(page)">
+                      {{ page }}
+                    </button>
+                  </li>
+                  
+                  <li class="page-item" [class.disabled]="currentPage === totalPages">
+                    <button class="page-link" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
+                      Next <i class="bi bi-chevron-right"></i>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
 
           <!-- Loading State -->
-          <div class="loading-state" *ngIf="loading">
-            <div class="spinner"></div>
-            <p>{{ languageService.getTranslation('loading') }}</p>
+          <div class="text-center py-5" *ngIf="loading">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted-custom">{{ languageService.getTranslation('loading') }}</p>
           </div>
 
           <!-- Error State -->
-          <div class="error-state" *ngIf="error">
-            <div class="error-icon">⚠️</div>
-            <h3>{{ languageService.getTranslation('error') }}</h3>
-            <p>{{ error }}</p>
-            <button class="btn btn-primary" (click)="refreshData()">
-              {{ languageService.getTranslation('refresh') }}
+          <div class="alert alert-danger text-center" *ngIf="error">
+            <i class="bi bi-exclamation-triangle-fill fs-1 text-danger mb-3"></i>
+            <h4 class="alert-heading">{{ languageService.getTranslation('error') }}</h4>
+            <p class="mb-3">{{ error }}</p>
+            <button class="btn btn-danger" (click)="refreshData()">
+              <i class="bi bi-arrow-clockwise me-1"></i>{{ languageService.getTranslation('refresh') }}
             </button>
           </div>
 
           <!-- No Data State -->
-          <div class="no-data-state" *ngIf="!loading && !error && filteredStocks.length === 0">
-            <div class="no-data-icon">📊</div>
-            <h3>{{ languageService.getTranslation('noData') }}</h3>
-            <p>No stocks found matching your criteria</p>
-            <button class="btn btn-primary" (click)="clearFilters()">
-              Clear Filters
+          <div class="text-center py-5" *ngIf="!loading && !error && filteredStocks.length === 0">
+            <i class="bi bi-graph-up fs-1 text-muted mb-3"></i>
+            <h4 class="text-primary-custom">{{ languageService.getTranslation('noData') }}</h4>
+            <p class="text-muted-custom mb-3">No stocks found matching your criteria</p>
+            <button class="btn btn-outline-primary" (click)="clearFilters()">
+              <i class="bi bi-funnel me-1"></i>Clear Filters
             </button>
           </div>
         </div>

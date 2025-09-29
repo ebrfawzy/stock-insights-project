@@ -9,30 +9,48 @@ import { ThemeService } from '../../services/theme.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <header class="global-header" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
-      <div class="container">
-        <div class="nav">
-          <div class="logo">
-            <h2>📈 StockInsights</h2>
-          </div>
-          <div class="nav-links">
-            <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-              {{ languageService.getTranslation('home') }}
-            </a>
-            <a routerLink="/insights" class="nav-link" routerLinkActive="active">
-              {{ languageService.getTranslation('insights') }}
-            </a>
-            <a routerLink="/stocks" class="nav-link" routerLinkActive="active">
-              {{ languageService.getTranslation('stocks') }}
-            </a>
-          </div>
-          <div class="nav-controls">
-            <button class="theme-toggle" (click)="toggleTheme()" [title]="themeService.isDarkMode() ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
-              <span class="theme-icon">{{ themeService.isDarkMode() ? '☀️' : '🌙' }}</span>
-              <span class="theme-text">{{ themeService.isDarkMode() ? 'Light' : 'Dark' }}</span>
+    <nav class="navbar navbar-expand-lg bg-primary-custom shadow-custom" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
+      <div class="container-fluid">
+        <a class="navbar-brand text-primary-custom fw-bold" routerLink="/">
+          <i class="bi bi-graph-up me-2"></i>StockInsights
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link text-primary-custom" routerLink="/" routerLinkActive="active" 
+                 [routerLinkActiveOptions]="{exact: true}">
+                {{ languageService.getTranslation('home') }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-primary-custom" routerLink="/insights" routerLinkActive="active">
+                {{ languageService.getTranslation('insights') }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-primary-custom" routerLink="/stocks" routerLinkActive="active">
+                {{ languageService.getTranslation('stocks') }}
+              </a>
+            </li>
+          </ul>
+          
+          <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-light btn-sm theme-toggle" (click)="toggleTheme()" 
+                    [title]="themeService.isDarkMode() ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+              <i class="bi" [class.bi-sun]="themeService.isDarkMode()" [class.bi-moon]="!themeService.isDarkMode()"></i>
+              <span class="ms-1 d-none d-md-inline">{{ themeService.isDarkMode() ? 'Light' : 'Dark' }}</span>
             </button>
-            <div class="language-switcher">
-              <select (change)="onLanguageChange($event)" [value]="languageService.getCurrentLanguage()().code" [title]="'Change Language'">
+            
+            <div class="dropdown">
+              <select class="form-select form-select-sm" (change)="onLanguageChange($event)" 
+                      [value]="languageService.getCurrentLanguage()().code" 
+                      [title]="'Change Language'" style="width: auto;">
                 <option *ngFor="let lang of languageService.getLanguages()" [value]="lang.code">
                   {{ lang.flag }} {{ lang.name }}
                 </option>
@@ -41,7 +59,7 @@ import { ThemeService } from '../../services/theme.service';
           </div>
         </div>
       </div>
-    </header>
+    </nav>
   `
 })
 export class GlobalHeaderComponent {
