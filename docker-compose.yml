@@ -17,7 +17,7 @@ services:
       - db
 
   frontend:
-    image: node:18
+    image: node:20
     working_dir: /app/frontend
     volumes:
       - ./frontend:/app/frontend

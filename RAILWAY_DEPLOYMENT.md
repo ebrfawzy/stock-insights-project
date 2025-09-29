@@ -112,6 +112,7 @@ Railway automatically:
    - Verify all dependencies are in requirements.txt
    - Ensure Angular CLI is in devDependencies (not production dependencies)
    - Make sure `npm ci` installs all dependencies (not `npm ci --only=production`)
+   - Verify Node.js version is 20+ (Angular CLI requirement)
 
 ### Logs and Monitoring:
 - View logs in Railway dashboard
