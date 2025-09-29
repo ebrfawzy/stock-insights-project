@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-railway-backend-url.railway.app', // Replace with your Railway backend URL
+  apiUrl: process.env['BACKEND_URL'] || 'https://your-railway-backend-url.railway.app',
   // Add other production-specific variables here
 };

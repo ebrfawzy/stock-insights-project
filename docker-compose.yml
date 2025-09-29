@@ -1,3 +1,6 @@
+# NOTE: This docker-compose.yml is for local development only
+# Railway deployment uses railway.json and Dockerfile instead
+
 version: '3.8'
 
 services:
@@ -14,7 +17,7 @@ services:
       - db
 
   frontend:
-    image: node:16
+    image: node:18
     working_dir: /app/frontend
     volumes:
       - ./frontend:/app/frontend
