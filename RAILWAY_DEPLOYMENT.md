@@ -84,11 +84,12 @@ After deployment, your app will be available at:
 ## 📦 Deployment Process
 
 Railway automatically:
-1. Builds the frontend (`npm run build`)
-2. Installs Python dependencies
-3. Runs database migrations
-4. Collects static files
-5. Starts the application with gunicorn
+1. Installs frontend dependencies (`npm ci`)
+2. Builds the frontend (`npm run build --configuration=production`)
+3. Installs Python dependencies
+4. Runs database migrations
+5. Collects static files
+6. Starts the application with gunicorn
 
 ## 🔍 Troubleshooting
 
@@ -109,6 +110,8 @@ Railway automatically:
 4. **Build Failures**
    - Check build logs in Railway dashboard
    - Verify all dependencies are in requirements.txt
+   - Ensure Angular CLI is in devDependencies (not production dependencies)
+   - Make sure `npm ci` installs all dependencies (not `npm ci --only=production`)
 
 ### Logs and Monitoring:
 - View logs in Railway dashboard

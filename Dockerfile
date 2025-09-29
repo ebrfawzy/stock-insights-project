@@ -3,9 +3,9 @@ FROM node:18-alpine AS frontend-build
 
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
-RUN npm ci --only=production
+RUN npm ci
 COPY frontend/ ./
-RUN npm run build
+RUN npm run build --configuration=production
 
 # Python backend stage
 FROM python:3.11-slim
@@ -32,7 +32,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/ ./
 
 # Copy built frontend assets
-COPY --from=frontend-build /app/frontend/dist/ ./staticfiles/
+COPY --from=frontend-build /app/frontend/dist/frontend/ ./staticfiles/
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
