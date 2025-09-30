@@ -22,9 +22,6 @@ COPY --from=builder /app/dist_root/ /usr/share/nginx/html/
 # If you placed it under docker/nginx/default.conf, change the source path accordingly.
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Run nginx as non-root user from official image
-USER 101
-
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
