@@ -108,12 +108,6 @@ ng-component:
 	@read -p "Component name: " name; \
 	docker-compose exec frontend ng generate component $$name
 
-# Check service health
-health:
-	@echo "Checking service health..."
-	@curl -s http://localhost:8000/health/ || echo "Backend: DOWN"
-	@curl -s http://localhost:4200/ > /dev/null && echo "Frontend: UP" || echo "Frontend: DOWN"
-
 # Development setup (first time)
 setup: build up migrate
 	@echo ""

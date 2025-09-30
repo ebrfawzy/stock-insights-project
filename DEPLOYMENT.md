@@ -144,17 +144,6 @@ deploy-railway-angular:
 - Multi-stage Docker build
 - Non-root user in container
 - Production-optimized Angular build
-- Health checks configured
-
-## Health Checks
-
-### Backend
-- Health endpoint: `/health/`
-- Returns JSON status response
-
-### Frontend
-- Health check on root path `/`
-- Serves Angular application
 
 ## Troubleshooting
 
@@ -188,7 +177,6 @@ railway logs --service=your-service-name
 ## Monitoring
 
 Set up monitoring for:
-- Application health endpoints
 - Database performance
 - Error rates
 - Response times

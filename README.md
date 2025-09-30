@@ -68,7 +68,6 @@ A comprehensive full-stack web application for real-time Egyptian stock market d
    - **Frontend**: http://localhost:4200
    - **Backend API**: http://localhost:8000
    - **Admin Panel**: http://localhost:8000/admin
-   - **Health Check**: http://localhost:8000/health/
 
 ### 🔧 **Manual Setup**
 
@@ -248,7 +247,6 @@ npm test
 - **Production Builds**: Optimized Angular production bundles
 
 ### Monitoring
-- **Health Endpoints**: `/health/` for service monitoring
 - **Error Tracking**: Comprehensive error logging and reporting
 - **Performance Metrics**: Response time and throughput monitoring
 

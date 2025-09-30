@@ -25,7 +25,6 @@ This guide helps you set up and run the Stock Insights application locally using
    - **Frontend**: http://localhost:4200
    - **Backend API**: http://localhost:8000
    - **Backend Admin**: http://localhost:8000/admin
-   - **Health Check**: http://localhost:8000/health/
 
 ## Services Overview
 
