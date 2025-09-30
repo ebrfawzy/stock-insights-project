@@ -9,7 +9,7 @@ import { LanguageService } from '../../services/language.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="bg-secondary-custom min-vh-100" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
+    <div class="bg-body-secondary min-vh-100" [attr.dir]="languageService.getCurrentLanguage()().direction">
 
       <!-- Main Content -->
       <main class="py-4">
@@ -32,7 +32,7 @@ import { LanguageService } from '../../services/language.service';
           </nav>
 
           <!-- Hero Section -->
-          <div class="card shadow-custom mb-4" *ngIf="stock">
+          <div class="card shadow mb-4" *ngIf="stock">
             <div class="card-body">
               <div class="row">
                 <div class="col-lg-8">
@@ -40,20 +40,20 @@ import { LanguageService } from '../../services/language.service';
                     <span class="badge bg-primary">{{ stock.exchange }}</span>
                     <span class="badge bg-secondary">{{ stock.sector }}</span>
                   </div>
-                  <h1 class="display-6 text-primary-custom mb-3">{{ stock.name }}</h1>
+                  <h1 class="display-6 text-primary mb-3">{{ stock.name }}</h1>
                   <div class="d-flex flex-wrap gap-3 mb-3">
                     <span class="fw-bold text-primary">{{ stock.symbol }}</span>
-                    <span class="text-muted-custom">{{ stock.industry }}</span>
-                    <span class="text-muted-custom">
+                    <span class="text-body-secondary">{{ stock.industry }}</span>
+                    <span class="text-body-secondary">
                       <i class="bi bi-geo-alt me-1"></i>{{ stock.country }}
                     </span>
                   </div>
-                  <p class="text-secondary-custom" *ngIf="stock.description">{{ stock.description }}</p>
+                  <p class="text-body-secondary" *ngIf="stock.description">{{ stock.description }}</p>
                 </div>
                 
                 <div class="col-lg-4">
                   <div class="text-center text-lg-end">
-                    <div class="display-4 fw-bold text-primary-custom mb-2">
+                    <div class="display-4 fw-bold text-primary mb-2">
                       {{ stock.price | currency:'EGP':'symbol':'1.2-2' }}
                     </div>
                     <div class="mb-3" [class.text-success]="stock.change_percent > 0" [class.text-danger]="stock.change_percent <= 0">
@@ -84,44 +84,44 @@ import { LanguageService } from '../../services/language.service';
           <!-- Key Metrics -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">Key Metrics</h2>
+              <h2 class="text-primary mb-4">Key Metrics</h2>
               <div class="row g-4">
                 <div class="col-md-6 col-lg-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">{{ languageService.getTranslation('marketCap') }}</div>
+                      <div class="text-body-secondary small mb-1">{{ languageService.getTranslation('marketCap') }}</div>
                       <div class="h5 fw-bold text-primary">{{ formatCurrency(stock.market_capitalization || 0) }}</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">{{ languageService.getTranslation('peRatio') }}</div>
+                      <div class="text-body-secondary small mb-1">{{ languageService.getTranslation('peRatio') }}</div>
                       <div class="h5 fw-bold text-info">{{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">{{ languageService.getTranslation('volume') }}</div>
+                      <div class="text-body-secondary small mb-1">{{ languageService.getTranslation('volume') }}</div>
                       <div class="h5 fw-bold text-warning">{{ formatNumber(stock.volume || 0) }}</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">{{ languageService.getTranslation('dividendYield') }}</div>
+                      <div class="text-body-secondary small mb-1">{{ languageService.getTranslation('dividendYield') }}</div>
                       <div class="h5 fw-bold text-success">{{ stock.dividend_yield_forward | number:'1.2-2' }}%</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">{{ languageService.getTranslation('technicalRating') }}</div>
+                      <div class="text-body-secondary small mb-1">{{ languageService.getTranslation('technicalRating') }}</div>
                       <div class="h5 fw-bold" [class.text-success]="stock.technical_rating > 0" [class.text-danger]="stock.technical_rating <= 0">
                         {{ stock.technical_rating | number:'1.1-1' }}
                       </div>
@@ -129,9 +129,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">Beta</div>
+                      <div class="text-body-secondary small mb-1">Beta</div>
                       <div class="h5 fw-bold text-secondary">{{ stock.one_year_beta | number:'1.2-2' }}</div>
                     </div>
                   </div>
@@ -143,12 +143,12 @@ import { LanguageService } from '../../services/language.service';
           <!-- Performance Section -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">Performance</h2>
+              <h2 class="text-primary mb-4">Performance</h2>
               <div class="row g-4">
                 <div class="col-md-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">{{ languageService.getTranslation('weeklyPerformance') }}</div>
+                      <div class="text-body-secondary small mb-1">{{ languageService.getTranslation('weeklyPerformance') }}</div>
                       <div class="h4 fw-bold" [class.text-success]="stock.weekly_performance > 0" [class.text-danger]="stock.weekly_performance <= 0">
                         <i class="bi me-1" [class.bi-arrow-up]="stock.weekly_performance > 0" [class.bi-arrow-down]="stock.weekly_performance <= 0"></i>
                         {{ stock.weekly_performance | number:'1.2-2' }}%
@@ -157,9 +157,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">{{ languageService.getTranslation('monthlyPerformance') }}</div>
+                      <div class="text-body-secondary small mb-1">{{ languageService.getTranslation('monthlyPerformance') }}</div>
                       <div class="h4 fw-bold" [class.text-success]="stock.monthly_performance > 0" [class.text-danger]="stock.monthly_performance <= 0">
                         <i class="bi me-1" [class.bi-arrow-up]="stock.monthly_performance > 0" [class.bi-arrow-down]="stock.monthly_performance <= 0"></i>
                         {{ stock.monthly_performance | number:'1.2-2' }}%
@@ -168,9 +168,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">{{ languageService.getTranslation('yearlyPerformance') }}</div>
+                      <div class="text-body-secondary small mb-1">{{ languageService.getTranslation('yearlyPerformance') }}</div>
                       <div class="h4 fw-bold" [class.text-success]="stock.yearly_performance > 0" [class.text-danger]="stock.yearly_performance <= 0">
                         <i class="bi me-1" [class.bi-arrow-up]="stock.yearly_performance > 0" [class.bi-arrow-down]="stock.yearly_performance <= 0"></i>
                         {{ stock.yearly_performance | number:'1.2-2' }}%
@@ -185,12 +185,12 @@ import { LanguageService } from '../../services/language.service';
           <!-- Technical Indicators -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">{{ languageService.getTranslation('technicalIndicators') }}</h2>
+              <h2 class="text-primary mb-4">{{ languageService.getTranslation('technicalIndicators') }}</h2>
               <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('rsi') }}</h5>
+                      <h5 class="card-title text-primary">{{ languageService.getTranslation('rsi') }}</h5>
                       <div class="display-6 fw-bold mb-2">{{ stock.relative_strength_index_14 | number:'1.1-1' }}</div>
                       <span class="badge" [class.bg-danger]="(stock.relative_strength_index_14 || 0) > 70" 
                             [class.bg-success]="(stock.relative_strength_index_14 || 0) < 30" 
@@ -201,9 +201,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('macd') }}</h5>
+                      <h5 class="card-title text-primary">{{ languageService.getTranslation('macd') }}</h5>
                       <div class="display-6 fw-bold mb-2">{{ stock.macd_level_12_26 | number:'1.3-3' }}</div>
                       <span class="badge" [class.bg-success]="(stock.macd_level_12_26 || 0) > (stock.macd_signal_12_26 || 0)" 
                             [class.bg-danger]="(stock.macd_level_12_26 || 0) <= (stock.macd_signal_12_26 || 0)">
@@ -213,9 +213,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <h5 class="card-title text-primary-custom">Stochastic</h5>
+                      <h5 class="card-title text-primary">Stochastic</h5>
                       <div class="display-6 fw-bold mb-2">{{ stock.stochastic_k_14_3_3 | number:'1.1-1' }}</div>
                       <span class="badge" [class.bg-danger]="(stock.stochastic_k_14_3_3 || 0) > 80" 
                             [class.bg-success]="(stock.stochastic_k_14_3_3 || 0) < 20" 
@@ -226,9 +226,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <h5 class="card-title text-primary-custom">Williams %R</h5>
+                      <h5 class="card-title text-primary">Williams %R</h5>
                       <div class="display-6 fw-bold mb-2">{{ stock.williams_percent_range_14 | number:'1.1-1' }}</div>
                       <span class="badge" [class.bg-danger]="(stock.williams_percent_range_14 || 0) > -20" 
                             [class.bg-success]="(stock.williams_percent_range_14 || 0) < -80" 
@@ -245,8 +245,8 @@ import { LanguageService } from '../../services/language.service';
           <!-- Moving Averages -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">{{ languageService.getTranslation('movingAverages') }}</h2>
-              <div class="card shadow-custom">
+              <h2 class="text-primary mb-4">{{ languageService.getTranslation('movingAverages') }}</h2>
+              <div class="card shadow">
                 <div class="card-body">
                   <div class="row g-3">
                     <div class="col-md-6 col-lg-2">
@@ -294,12 +294,12 @@ import { LanguageService } from '../../services/language.service';
           <!-- Additional Performance Metrics -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">Additional Performance</h2>
+              <h2 class="text-primary mb-4">Additional Performance</h2>
               <div class="row g-4">
                 <div class="col-md-6 col-xl-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">YTD Performance</div>
+                      <div class="text-body-secondary small mb-1">YTD Performance</div>
                       <div class="h5 fw-bold" [class.text-success]="(stock.ytd_performance || 0) > 0" [class.text-danger]="(stock.ytd_performance || 0) <= 0">
                         <i class="bi me-1" [class.bi-arrow-up]="(stock.ytd_performance || 0) > 0" [class.bi-arrow-down]="(stock.ytd_performance || 0) <= 0"></i>
                         {{ stock.ytd_performance | number:'1.2-2' }}%
@@ -308,9 +308,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-xl-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">3 Month Performance</div>
+                      <div class="text-body-secondary small mb-1">3 Month Performance</div>
                       <div class="h5 fw-bold" [class.text-success]="(stock.three_month_performance || 0) > 0" [class.text-danger]="(stock.three_month_performance || 0) <= 0">
                         <i class="bi me-1" [class.bi-arrow-up]="(stock.three_month_performance || 0) > 0" [class.bi-arrow-down]="(stock.three_month_performance || 0) <= 0"></i>
                         {{ stock.three_month_performance | number:'1.2-2' }}%
@@ -319,9 +319,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-xl-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">6 Month Performance</div>
+                      <div class="text-body-secondary small mb-1">6 Month Performance</div>
                       <div class="h5 fw-bold" [class.text-success]="(stock.six_month_performance || 0) > 0" [class.text-danger]="(stock.six_month_performance || 0) <= 0">
                         <i class="bi me-1" [class.bi-arrow-up]="(stock.six_month_performance || 0) > 0" [class.bi-arrow-down]="(stock.six_month_performance || 0) <= 0"></i>
                         {{ stock.six_month_performance | number:'1.2-2' }}%
@@ -330,9 +330,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-xl-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">5 Year Performance</div>
+                      <div class="text-body-secondary small mb-1">5 Year Performance</div>
                       <div class="h5 fw-bold" [class.text-success]="(stock.five_year_performance || 0) > 0" [class.text-danger]="(stock.five_year_performance || 0) <= 0">
                         <i class="bi me-1" [class.bi-arrow-up]="(stock.five_year_performance || 0) > 0" [class.bi-arrow-down]="(stock.five_year_performance || 0) <= 0"></i>
                         {{ stock.five_year_performance | number:'1.2-2' }}%
@@ -341,9 +341,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-xl-2">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">All Time Performance</div>
+                      <div class="text-body-secondary small mb-1">All Time Performance</div>
                       <div class="h5 fw-bold" [class.text-success]="(stock.all_time_performance || 0) > 0" [class.text-danger]="(stock.all_time_performance || 0) <= 0">
                         <i class="bi me-1" [class.bi-arrow-up]="(stock.all_time_performance || 0) > 0" [class.bi-arrow-down]="(stock.all_time_performance || 0) <= 0"></i>
                         {{ stock.all_time_performance | number:'1.2-2' }}%
@@ -358,10 +358,10 @@ import { LanguageService } from '../../services/language.service';
           <!-- High/Low Records -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">High/Low Records</h2>
+              <h2 class="text-primary mb-4">High/Low Records</h2>
               <div class="row g-4">
                 <div class="col-md-6 col-lg-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-header bg-primary text-white">
                       <h6 class="mb-0">All Time</h6>
                     </div>
@@ -380,7 +380,7 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-header bg-secondary text-white">
                       <h6 class="mb-0">52 Week</h6>
                     </div>
@@ -399,7 +399,7 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-header bg-info text-white">
                       <h6 class="mb-0">6 Month</h6>
                     </div>
@@ -424,8 +424,8 @@ import { LanguageService } from '../../services/language.service';
           <!-- Volume Information -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">Volume Information</h2>
-              <div class="card shadow-custom">
+              <h2 class="text-primary mb-4">Volume Information</h2>
+              <div class="card shadow">
                 <div class="card-body">
                   <div class="row g-3">
                     <div class="col-md-6 col-lg-2">
@@ -467,8 +467,8 @@ import { LanguageService } from '../../services/language.service';
           <!-- Valuation Ratios -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">Valuation Ratios</h2>
-              <div class="card shadow-custom">
+              <h2 class="text-primary mb-4">Valuation Ratios</h2>
+              <div class="card shadow">
                 <div class="card-body">
                   <div class="row g-3">
                     <div class="col-md-6 col-lg-3">
@@ -504,12 +504,12 @@ import { LanguageService } from '../../services/language.service';
           <!-- Technical Ratings -->
           <div class="row mb-4" *ngIf="stock">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">Technical Ratings</h2>
+              <h2 class="text-primary mb-4">Technical Ratings</h2>
               <div class="row g-4">
                 <div class="col-md-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">Technical Rating</div>
+                      <div class="text-body-secondary small mb-1">Technical Rating</div>
                       <div class="display-6 fw-bold" [class.text-success]="(stock.technical_rating || 0) > 0" [class.text-danger]="(stock.technical_rating || 0) <= 0">
                         {{ stock.technical_rating | number:'1.1-1' }}
                       </div>
@@ -517,9 +517,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">Oscillators Rating</div>
+                      <div class="text-body-secondary small mb-1">Oscillators Rating</div>
                       <div class="display-6 fw-bold" [class.text-success]="(stock.oscillators_rating || 0) > 0" [class.text-danger]="(stock.oscillators_rating || 0) <= 0">
                         {{ stock.oscillators_rating | number:'1.1-1' }}
                       </div>
@@ -527,9 +527,9 @@ import { LanguageService } from '../../services/language.service';
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
-                      <div class="text-muted-custom small mb-1">Moving Averages Rating</div>
+                      <div class="text-body-secondary small mb-1">Moving Averages Rating</div>
                       <div class="display-6 fw-bold" [class.text-success]="(stock.moving_averages_rating || 0) > 0" [class.text-danger]="(stock.moving_averages_rating || 0) <= 0">
                         {{ stock.moving_averages_rating | number:'1.1-1' }}
                       </div>
@@ -545,7 +545,7 @@ import { LanguageService } from '../../services/language.service';
             <div class="spinner-border text-primary mb-3" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <p class="text-muted-custom">{{ languageService.getTranslation('loading') }}</p>
+            <p class="text-body-secondary">{{ languageService.getTranslation('loading') }}</p>
           </div>
 
           <!-- Error State -->

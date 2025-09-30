@@ -10,7 +10,7 @@ import { LanguageService } from '../../services/language.service';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
-    <div class="bg-secondary-custom min-vh-100" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
+    <div class="bg-body-secondary min-vh-100" [attr.dir]="languageService.getCurrentLanguage()().direction">
 
       <!-- Main Content -->
       <main class="py-4">
@@ -18,17 +18,17 @@ import { LanguageService } from '../../services/language.service';
           <!-- Page Header -->
           <div class="row mb-4">
             <div class="col">
-              <h1 class="display-5 text-primary-custom mb-2">Stock List</h1>
-              <p class="lead text-muted-custom">Browse and analyze all Egyptian stocks</p>
+              <h1 class="display-5 text-primary mb-2">Stock List</h1>
+              <p class="lead text-body-secondary">Browse and analyze all Egyptian stocks</p>
             </div>
           </div>
 
           <!-- Filters -->
-          <div class="card shadow-custom mb-4">
+          <div class="card shadow mb-4">
             <div class="card-body">
               <div class="row g-3">
                 <div class="col-md-3">
-                  <label class="form-label text-primary-custom fw-semibold">{{ languageService.getTranslation('search') }}:</label>
+                  <label class="form-label fw-semibold">{{ languageService.getTranslation('search') }}:</label>
                   <input 
                     type="text" 
                     [(ngModel)]="searchTerm" 
@@ -37,21 +37,21 @@ import { LanguageService } from '../../services/language.service';
                     class="form-control">
                 </div>
                 <div class="col-md-3">
-                  <label class="form-label text-primary-custom fw-semibold">Sector:</label>
+                  <label class="form-label fw-semibold">Sector:</label>
                   <select [(ngModel)]="selectedSector" (change)="onFilterChange()" class="form-select">
                     <option value="">All Sectors</option>
                     <option *ngFor="let sector of sectors" [value]="sector">{{ sector }}</option>
                   </select>
                 </div>
                 <div class="col-md-3">
-                  <label class="form-label text-primary-custom fw-semibold">Industry:</label>
+                  <label class="form-label fw-semibold">Industry:</label>
                   <select [(ngModel)]="selectedIndustry" (change)="onFilterChange()" class="form-select">
                     <option value="">All Industries</option>
                     <option *ngFor="let industry of industries" [value]="industry">{{ industry }}</option>
                   </select>
                 </div>
                 <div class="col-md-3">
-                  <label class="form-label text-primary-custom fw-semibold">Sort by:</label>
+                  <label class="form-label fw-semibold">Sort by:</label>
                   <select [(ngModel)]="sortBy" (change)="onSortChange()" class="form-select">
                     <option value="market_capitalization">Market Cap</option>
                     <option value="price">Price</option>
@@ -65,9 +65,9 @@ import { LanguageService } from '../../services/language.service';
           </div>
 
           <!-- Stocks Table -->
-          <div class="card shadow-custom">
-            <div class="card-header d-flex justify-content-between align-items-center bg-primary-custom">
-              <h4 class="mb-0 text-primary-custom">Stocks ({{ filteredStocks.length }})</h4>
+          <div class="card shadow">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h4 class="mb-0">Stocks ({{ filteredStocks.length }})</h4>
               <button class="btn btn-primary" (click)="refreshData()" [disabled]="loading">
                 <i class="bi bi-arrow-clockwise me-1"></i>
                 {{ loading ? languageService.getTranslation('loading') : languageService.getTranslation('refresh') }}
@@ -78,31 +78,31 @@ import { LanguageService } from '../../services/language.service';
               <table class="table table-hover mb-0">
                 <thead class="table-light">
                   <tr>
-                    <th class="text-primary-custom">#</th>
-                    <th class="text-primary-custom">Symbol</th>
-                    <th class="text-primary-custom">Name</th>
-                    <th class="text-primary-custom">{{ languageService.getTranslation('price') }}</th>
-                    <th class="text-primary-custom">{{ languageService.getTranslation('change') }}</th>
-                    <th class="text-primary-custom">{{ languageService.getTranslation('volume') }}</th>
-                    <th class="text-primary-custom">{{ languageService.getTranslation('marketCap') }}</th>
-                    <th class="text-primary-custom">{{ languageService.getTranslation('peRatio') }}</th>
-                    <th class="text-primary-custom">Sector</th>
-                    <th class="text-primary-custom">Actions</th>
+                    <th>#</th>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>{{ languageService.getTranslation('price') }}</th>
+                    <th>{{ languageService.getTranslation('change') }}</th>
+                    <th>{{ languageService.getTranslation('volume') }}</th>
+                    <th>{{ languageService.getTranslation('marketCap') }}</th>
+                    <th>{{ languageService.getTranslation('peRatio') }}</th>
+                    <th>Sector</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let stock of paginatedStocks; let i = index">
-                    <td class="text-muted-custom">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
-                    <td class="fw-bold text-primary-custom">{{ stock.symbol }}</td>
-                    <td class="text-secondary-custom">{{ stock.name }}</td>
+                    <td class="text-body-secondary">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+                    <td class="fw-bold text-primary">{{ stock.symbol }}</td>
+                    <td class="text-body-secondary">{{ stock.name }}</td>
                     <td class="fw-semibold">{{ stock.price | currency:'EGP':'symbol':'1.2-2' }}</td>
                     <td [class.text-success]="stock.change_percent > 0" [class.text-danger]="stock.change_percent <= 0" class="fw-semibold">
                       <i class="bi" [class.bi-arrow-up]="stock.change_percent > 0" [class.bi-arrow-down]="stock.change_percent <= 0"></i>
                       {{ stock.change_percent | number:'1.2-2' }}%
                     </td>
-                    <td class="text-muted-custom">{{ formatNumber(stock.volume) }}</td>
-                    <td class="text-muted-custom">{{ formatCurrency(stock.market_capitalization) }}</td>
-                    <td class="text-muted-custom">{{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</td>
+                    <td class="text-body-secondary">{{ formatNumber(stock.volume) }}</td>
+                    <td class="text-body-secondary">{{ formatCurrency(stock.market_capitalization) }}</td>
+                    <td class="text-body-secondary">{{ stock.price_to_earnings_ratio_ttm | number:'1.1-1' }}</td>
                     <td><span class="badge bg-secondary">{{ stock.sector }}</span></td>
                     <td>
                       <button class="btn btn-sm btn-outline-primary" [routerLink]="['/stocks', stock.symbol]">
@@ -145,7 +145,7 @@ import { LanguageService } from '../../services/language.service';
             <div class="spinner-border text-primary mb-3" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <p class="text-muted-custom">{{ languageService.getTranslation('loading') }}</p>
+            <p class="text-body-secondary">{{ languageService.getTranslation('loading') }}</p>
           </div>
 
           <!-- Error State -->
@@ -161,8 +161,8 @@ import { LanguageService } from '../../services/language.service';
           <!-- No Data State -->
           <div class="text-center py-5" *ngIf="!loading && !error && filteredStocks.length === 0">
             <i class="bi bi-graph-up fs-1 text-muted mb-3"></i>
-            <h4 class="text-primary-custom">{{ languageService.getTranslation('noData') }}</h4>
-            <p class="text-muted-custom mb-3">No stocks found matching your criteria</p>
+            <h4 class="text-primary">{{ languageService.getTranslation('noData') }}</h4>
+            <p class="text-body-secondary mb-3">No stocks found matching your criteria</p>
             <button class="btn btn-outline-primary" (click)="clearFilters()">
               <i class="bi bi-funnel me-1"></i>Clear Filters
             </button>

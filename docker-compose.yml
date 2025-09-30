@@ -28,9 +28,6 @@ services:
     volumes:
       - ./backend:/app
       - backend_static:/app/staticfiles
-    depends_on:
-      postgres:
-        condition: service_healthy
     command: >
       sh -c "
         python manage.py migrate &&

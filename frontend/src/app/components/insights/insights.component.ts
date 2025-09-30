@@ -9,7 +9,7 @@ import { LanguageService } from '../../services/language.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="bg-secondary-custom min-vh-100" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
+    <div class="bg-body-secondary min-vh-100" [attr.dir]="languageService.getCurrentLanguage()().direction">
 
       <!-- Main Content -->
       <main class="py-4">
@@ -17,8 +17,8 @@ import { LanguageService } from '../../services/language.service';
           <!-- Page Header -->
           <div class="row mb-4">
             <div class="col-lg-8">
-              <h1 class="display-5 text-primary-custom mb-2">{{ languageService.getTranslation('marketInsights') }}</h1>
-              <p class="lead text-muted-custom">{{ languageService.getTranslation('insightsSubtitle') }}</p>
+              <h1 class="display-5 text-primary mb-2">{{ languageService.getTranslation('marketInsights') }}</h1>
+              <p class="lead text-body-secondary">{{ languageService.getTranslation('insightsSubtitle') }}</p>
             </div>
             <div class="col-lg-4 d-flex align-items-center justify-content-lg-end">
               <button class="btn btn-primary btn-lg" (click)="refreshData()" [disabled]="loading">
@@ -31,37 +31,37 @@ import { LanguageService } from '../../services/language.service';
           <!-- Market Overview -->
           <div class="row mb-5" *ngIf="insights">
             <div class="col-12">
-              <h2 class="text-primary-custom mb-4">{{ languageService.getTranslation('marketOverview') }}</h2>
+              <h2 class="text-primary mb-4">{{ languageService.getTranslation('marketOverview') }}</h2>
               <div class="row g-4">
                 <div class="col-md-6 col-lg-3">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
                       <div class="display-6 fw-bold text-primary mb-2">{{ insights.total_stocks }}</div>
-                      <div class="text-muted-custom">{{ languageService.getTranslation('totalStocks') }}</div>
+                      <div class="text-body-secondary">{{ languageService.getTranslation('totalStocks') }}</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
                       <div class="display-6 fw-bold text-success mb-2">{{ formatCurrency(insights.market_overview.total_market_cap) }}</div>
-                      <div class="text-muted-custom">{{ languageService.getTranslation('totalMarketCap') }}</div>
+                      <div class="text-body-secondary">{{ languageService.getTranslation('totalMarketCap') }}</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
                       <div class="display-6 fw-bold text-info mb-2">{{ insights.market_overview.average_pe_ratio | number:'1.1-1' }}</div>
-                      <div class="text-muted-custom">{{ languageService.getTranslation('averagePERatio') }}</div>
+                      <div class="text-body-secondary">{{ languageService.getTranslation('averagePERatio') }}</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                  <div class="card shadow-custom h-100 border-0">
+                  <div class="card shadow h-100 border-0">
                     <div class="card-body text-center">
                       <div class="display-6 fw-bold text-warning mb-2">{{ formatNumber(insights.market_overview.average_volume) }}</div>
-                      <div class="text-muted-custom">{{ languageService.getTranslation('averageVolume') }}</div>
+                      <div class="text-body-secondary">{{ languageService.getTranslation('averageVolume') }}</div>
                     </div>
                   </div>
                 </div>
@@ -73,7 +73,7 @@ import { LanguageService } from '../../services/language.service';
           <div class="row g-4" *ngIf="insights && !loading">
             <!-- Top Bullish Stocks -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-success text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-graph-up me-2"></i>
@@ -90,8 +90,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || languageService.getTranslation('unknown') }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || languageService.getTranslation('unknown') }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -114,7 +114,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Top Bearish Stocks -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-danger text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-graph-down me-2"></i>
@@ -131,8 +131,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || languageService.getTranslation('unknown') }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || languageService.getTranslation('unknown') }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -151,7 +151,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Overpriced Stocks -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-warning text-dark">
                   <h5 class="mb-0">
                     <i class="bi bi-cash-coin me-2"></i>
@@ -168,8 +168,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -185,7 +185,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Underpriced Stocks -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-info text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-gem me-2"></i>
@@ -202,8 +202,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -219,7 +219,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Volume Leaders -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-secondary text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-bar-chart me-2"></i>
@@ -236,8 +236,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -253,7 +253,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Top Sectors Change -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-dark text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-building me-2"></i>
@@ -266,7 +266,7 @@ import { LanguageService } from '../../services/language.service';
                          *ngFor="let sector of insights.top_sectors_change; let i = index">
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
-                        <div class="fw-semibold text-primary-custom">{{ sector.sector || languageService.getTranslation('unknown') }}</div>
+                        <div class="fw-semibold">{{ sector.sector || languageService.getTranslation('unknown') }}</div>
                       </div>
                       <div class="text-end">
                         <span class="badge" [class.bg-success]="sector.change > 0" [class.bg-danger]="sector.change <= 0">
@@ -286,7 +286,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Top +ve Movers -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-success text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-graph-up me-2"></i>
@@ -303,8 +303,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -326,7 +326,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Top -ve Movers -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-danger text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-graph-down me-2"></i>
@@ -343,8 +343,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -366,7 +366,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Dividend Stocks -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-primary text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-cash-stack me-2"></i>
@@ -383,8 +383,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -400,7 +400,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Momentum Stocks -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-warning text-dark">
                   <h5 class="mb-0">
                     <i class="bi bi-lightning me-2"></i>
@@ -417,8 +417,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -436,7 +436,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Growth Stocks -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-success text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-rocket-takeoff me-2"></i>
@@ -453,8 +453,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -470,7 +470,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Best Short Term -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-info text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-speedometer2 me-2"></i>
@@ -487,8 +487,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -504,7 +504,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Best Medium Term -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-secondary text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-calendar-month me-2"></i>
@@ -521,8 +521,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -538,7 +538,7 @@ import { LanguageService } from '../../services/language.service';
 
             <!-- Best Long Term -->
             <div class="col-lg-6">
-              <div class="card shadow-custom h-100">
+              <div class="card shadow h-100">
                 <div class="card-header bg-dark text-white">
                   <h5 class="mb-0">
                     <i class="bi bi-bullseye me-2"></i>
@@ -555,8 +555,8 @@ import { LanguageService } from '../../services/language.service';
                       <div class="d-flex align-items-center">
                         <span class="badge bg-primary me-3">{{ i + 1 }}</span>
                         <div>
-                          <div class="fw-bold text-primary-custom">{{ stock.symbol || 'N/A' }}</div>
-                          <small class="text-muted-custom">{{ stock.name || 'Unknown' }}</small>
+                          <div class="fw-bold">{{ stock.symbol || 'N/A' }}</div>
+                          <small class="text-body-secondary">{{ stock.name || 'Unknown' }}</small>
                         </div>
                       </div>
                       <div class="text-end">
@@ -576,7 +576,7 @@ import { LanguageService } from '../../services/language.service';
             <div class="spinner-border text-primary mb-3" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <p class="text-muted-custom">{{ languageService.getTranslation('loading') }}</p>
+            <p class="text-body-secondary">{{ languageService.getTranslation('loading') }}</p>
           </div>
 
           <!-- Error State -->

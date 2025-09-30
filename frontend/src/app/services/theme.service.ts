@@ -40,15 +40,8 @@ export class ThemeService {
   }
 
   private applyTheme(theme: Theme): void {
-    const root = document.documentElement;
-    
-    if (theme === 'dark') {
-      root.classList.add('dark-theme');
-      root.classList.remove('light-theme');
-    } else {
-      root.classList.add('light-theme');
-      root.classList.remove('dark-theme');
-    }
+    // Use Bootstrap's native data-bs-theme attribute on the document root
+    document.documentElement.setAttribute('data-bs-theme', theme);
   }
 
   isDarkMode(): boolean {

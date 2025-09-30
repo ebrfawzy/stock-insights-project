@@ -8,7 +8,7 @@ import { LanguageService } from '../../services/language.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="bg-secondary-custom" [class.rtl]="languageService.getCurrentLanguage()().direction === 'rtl'">
+    <div class="bg-body-secondary" [attr.dir]="languageService.getCurrentLanguage()().direction">
 
       <!-- Hero Section -->
       <section class="py-5 bg-primary text-white">
@@ -47,49 +47,49 @@ import { LanguageService } from '../../services/language.service';
       <!-- Features Section -->
       <section class="py-5">
         <div class="container">
-          <h2 class="text-center text-primary-custom mb-5">{{ languageService.getTranslation('keyFeatures') }}</h2>
+          <h2 class="text-center text-primary mb-5">{{ languageService.getTranslation('keyFeatures') }}</h2>
           <div class="row g-4">
             <div class="col-md-6 col-lg-3">
-              <div class="card h-100 shadow-custom border-0">
+              <div class="card h-100 shadow border-0">
                 <div class="card-body text-center">
                   <div class="mb-3">
                     <i class="bi bi-graph-up text-primary" style="font-size: 3rem;"></i>
                   </div>
-                  <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('featureRealTimeDataTitle') }}</h5>
-                  <p class="card-text text-muted-custom">{{ languageService.getTranslation('featureRealTimeDataDesc') }}</p>
+                  <h5 class="card-title">{{ languageService.getTranslation('featureRealTimeDataTitle') }}</h5>
+                  <p class="card-text text-body-secondary">{{ languageService.getTranslation('featureRealTimeDataDesc') }}</p>
                 </div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
-              <div class="card h-100 shadow-custom border-0">
+              <div class="card h-100 shadow border-0">
                 <div class="card-body text-center">
                   <div class="mb-3">
                     <i class="bi bi-bullseye text-primary" style="font-size: 3rem;"></i>
                   </div>
-                  <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('featureSmartInsightsTitle') }}</h5>
-                  <p class="card-text text-muted-custom">{{ languageService.getTranslation('featureSmartInsightsDesc') }}</p>
+                  <h5 class="card-title">{{ languageService.getTranslation('featureSmartInsightsTitle') }}</h5>
+                  <p class="card-text text-body-secondary">{{ languageService.getTranslation('featureSmartInsightsDesc') }}</p>
                 </div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
-              <div class="card h-100 shadow-custom border-0">
+              <div class="card h-100 shadow border-0">
                 <div class="card-body text-center">
                   <div class="mb-3">
                     <i class="bi bi-bar-chart text-primary" style="font-size: 3rem;"></i>
                   </div>
-                  <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('featureTechnicalAnalysisTitle') }}</h5>
-                  <p class="card-text text-muted-custom">{{ languageService.getTranslation('featureTechnicalAnalysisDesc') }}</p>
+                  <h5 class="card-title">{{ languageService.getTranslation('featureTechnicalAnalysisTitle') }}</h5>
+                  <p class="card-text text-body-secondary">{{ languageService.getTranslation('featureTechnicalAnalysisDesc') }}</p>
                 </div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
-              <div class="card h-100 shadow-custom border-0">
+              <div class="card h-100 shadow border-0">
                 <div class="card-body text-center">
                   <div class="mb-3">
                     <i class="bi bi-cash-coin text-primary" style="font-size: 3rem;"></i>
                   </div>
-                  <h5 class="card-title text-primary-custom">{{ languageService.getTranslation('featureInvestmentStrategiesTitle') }}</h5>
-                  <p class="card-text text-muted-custom">{{ languageService.getTranslation('featureInvestmentStrategiesDesc') }}</p>
+                  <h5 class="card-title">{{ languageService.getTranslation('featureInvestmentStrategiesTitle') }}</h5>
+                  <p class="card-text text-body-secondary">{{ languageService.getTranslation('featureInvestmentStrategiesDesc') }}</p>
                 </div>
               </div>
             </div>
@@ -98,32 +98,32 @@ import { LanguageService } from '../../services/language.service';
       </section>
 
       <!-- Market Overview -->
-      <section class="py-5 bg-light">
+      <section class="py-5 bg-body">
         <div class="container">
-          <h2 class="text-center text-primary-custom mb-5">{{ languageService.getTranslation('marketOverview') }}</h2>
+          <h2 class="text-center text-primary mb-5">{{ languageService.getTranslation('marketOverview') }}</h2>
           <div class="row g-4">
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
                 <div class="display-4 fw-bold text-primary mb-2">250+</div>
-                <div class="text-muted-custom">{{ languageService.getTranslation('statsStocksTracked') }}</div>
+                <div class="text-body-secondary">{{ languageService.getTranslation('statsStocksTracked') }}</div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
                 <div class="display-4 fw-bold text-success mb-2">24/7</div>
-                <div class="text-muted-custom">{{ languageService.getTranslation('statsRealTimeUpdates') }}</div>
+                <div class="text-body-secondary">{{ languageService.getTranslation('statsRealTimeUpdates') }}</div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
                 <div class="display-4 fw-bold text-info mb-2">50+</div>
-                <div class="text-muted-custom">{{ languageService.getTranslation('statsTechnicalIndicators') }}</div>
+                <div class="text-body-secondary">{{ languageService.getTranslation('statsTechnicalIndicators') }}</div>
               </div>
             </div>
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
                 <div class="display-4 fw-bold text-warning mb-2">100%</div>
-                <div class="text-muted-custom">{{ languageService.getTranslation('statsFreeAccess') }}</div>
+                <div class="text-body-secondary">{{ languageService.getTranslation('statsFreeAccess') }}</div>
               </div>
             </div>
           </div>
