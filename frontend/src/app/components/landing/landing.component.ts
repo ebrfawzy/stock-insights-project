@@ -104,7 +104,7 @@ import { LanguageService } from '../../services/language.service';
           <div class="row g-4">
             <div class="col-md-6 col-lg-3">
               <div class="text-center">
-                <div class="display-4 fw-bold text-primary mb-2">500+</div>
+                <div class="display-4 fw-bold text-primary mb-2">250+</div>
                 <div class="text-muted-custom">{{ languageService.getTranslation('statsStocksTracked') }}</div>
               </div>
             </div>
