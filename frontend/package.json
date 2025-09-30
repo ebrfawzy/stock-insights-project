@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "dev": "ng serve",
+    "start": "serve dist/frontend -s -n -L -p $PORT",
+    "build": "ng build --configuration production",
+    "build:dev": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -36,6 +38,7 @@
     "lightweight-charts": "^4.1.3",
     "ng2-charts": "^8.0.0",
     "rxjs": "~7.8.0",
+    "serve": "^14.2.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

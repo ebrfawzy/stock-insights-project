@@ -1,0 +1,2 @@
+web: gunicorn stock_api.wsgi --log-file - --timeout 300
+release: python manage.py migrate --noinput

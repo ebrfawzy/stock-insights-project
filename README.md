@@ -1,270 +1,307 @@
-# StockInsights - Egyptian Stock Market Analysis Platform
+# Stock Insights - Egyptian Stock Market Analytics Platform
 
-A comprehensive Django + Angular application for analyzing Egyptian stock market data with real-time insights, technical analysis, and investment recommendations.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Django](https://img.shields.io/badge/Django-4.2.7-green.svg)](https://djangoproject.com/)
+[![Angular](https://img.shields.io/badge/Angular-20.3.0-red.svg)](https://angular.io/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com/)
 
-## 🚀 Features
+A comprehensive full-stack web application for real-time Egyptian stock market data analysis, insights, and visualization. Built with modern technologies and designed for both development and production deployment.
 
-### 📊 Market Insights
-- **Top Bullish/Bearish Stocks**: AI-powered analysis to identify market trends
-- **Investment Strategies**: Best stocks for short-term (1 week), medium-term (1 month), and long-term (1 year) investments
-- **Value Analysis**: Overpriced and underpriced stock identification
-- **Volume Leaders**: Most actively traded stocks
-- **Dividend Stocks**: High-yield dividend opportunities
-- **Growth Stocks**: Companies with strong growth potential
+## 🌟 Features
 
-### 📈 Technical Analysis
-- **50+ Technical Indicators**: RSI, MACD, Stochastic, Williams %R, Bollinger Bands, Ichimoku Cloud, and more
-- **Moving Averages**: Simple and Exponential moving averages (5, 10, 20, 30, 50, 100, 200)
-- **Momentum Indicators**: Rate of change, momentum, and trend analysis
-- **Volume Analysis**: Volume-weighted indicators and money flow analysis
+### 📊 **Stock Market Data**
+- **Real-time Data Fetching**: Live Egyptian stock market data integration
+- **Comprehensive Stock Information**: Price, volume, performance metrics, and market indicators
+- **Historical Performance Tracking**: Weekly, monthly, yearly, and YTD performance analysis
+- **Market Insights**: Advanced analytics and trend identification
 
-### 💰 Financial Metrics
-- **Valuation Ratios**: P/E, P/B, P/S, EV/EBITDA ratios
-- **Growth Metrics**: Revenue, EPS, and EBITDA growth analysis
-- **Profitability**: Gross, operating, and net margins
-- **Returns**: ROA, ROE, and ROIC calculations
-- **Debt Analysis**: Debt-to-equity and liquidity ratios
+### 📈 **Data Visualization**
+- **Interactive Charts**: Beautiful, responsive charts using Chart.js and Lightweight Charts
+- **Technical Indicators**: Moving averages, volume analysis, and price trends
+- **Performance Dashboards**: Visual representation of market movements
+- **Responsive Design**: Optimized for desktop and mobile devices
 
-### 🌍 Internationalization
-- **Multi-language Support**: English (UK) and Arabic (Egypt)
-- **RTL Support**: Right-to-left layout for Arabic
-- **Dynamic Language Switching**: Real-time language changes
-
-### 📱 Modern UI/UX
-- **Responsive Design**: Works on desktop, tablet, and mobile
-- **Modern Interface**: Clean, professional design with smooth animations
-- **Interactive Charts**: Lightweight-charts integration for data visualization
-- **Real-time Updates**: Live market data with caching for performance
+### 🔧 **Technical Excellence**
+- **RESTful API**: Well-structured Django REST framework endpoints
+- **Scalable Architecture**: Microservices-ready design
+- **Production Optimized**: Gunicorn, WhiteNoise, and static file optimization
 
 ## 🏗️ Architecture
 
-### Backend (Django)
-- **Django REST Framework**: RESTful API endpoints
-- **Comprehensive Models**: 200+ stock data fields
-- **Caching**: Redis-based caching for performance
-- **Data Processing**: Advanced stock analysis algorithms
-
-### Frontend (Angular)
-- **Angular 20**: Latest Angular framework
-- **Standalone Components**: Modern Angular architecture
-- **Services**: Centralized API communication
-- **Routing**: Lazy-loaded routes for performance
-
-## 📁 Project Structure
-
 ```
-stock-insights-project/
-├── backend/
-│   ├── stock_api/           # Django project settings
-│   ├── stocks/             # Main Django app
-│   │   ├── models.py       # Comprehensive stock models
-│   │   ├── views.py        # API endpoints
-│   │   ├── serializers.py  # Data serialization
-│   │   ├── stock_fetcher.py # Data fetching logic
-│   │   └── urls.py         # URL routing
-│   └── manage.py
-├── frontend/
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── components/
-│   │   │   │   ├── landing/        # Landing page
-│   │   │   │   ├── insights/      # Market insights
-│   │   │   │   ├── stocks/        # Stock list
-│   │   │   │   └── stock-detail/  # Individual stock details
-│   │   │   ├── services/
-│   │   │   │   ├── stock.service.ts    # API communication
-│   │   │   │   └── language.service.ts # i18n support
-│   │   │   ├── app.routes.ts      # Routing configuration
-│   │   │   └── app.ts            # Main app component
-│   │   └── environments/
-│   └── package.json
-└── README.md
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Angular SPA   │◄──►│  Django REST    │◄──►│   PostgreSQL    │
+│                 │    │     API         │    │   Database      │
+│   Frontend      │    │                 │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Bootstrap +   │    │   Static Files  │    │   External APIs │
+│   Charts.js     │    │   (WhiteNoise)  │    │   (Stock Data)  │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-## 🛠️ Installation & Setup
+## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.8+
-- Node.js 18+
-- Django 5.2+
-- Angular 20+
+- **Docker & Docker Compose** (recommended)
+- **Node.js 18+** & **npm** (for frontend development)
+- **Python 3.11+** (for backend development)
+- **PostgreSQL 15+** (for production database)
 
-### Backend Setup
+### 🐳 **Docker Compose (Recommended)**
 
-1. **Navigate to backend directory**:
+1. **Clone the repository**
    ```bash
-   cd backend
+   git clone <your-repo-url>
+   cd stock-insights-project
    ```
 
-2. **Create virtual environment**:
+2. **Start all services**
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   docker-compose up --build
    ```
 
-3. **Install dependencies**:
-   ```bash
-   pip install -r ../django-requirements.txt
-   ```
+3. **Access the application**
+   - **Frontend**: http://localhost:4200
+   - **Backend API**: http://localhost:8000
+   - **Admin Panel**: http://localhost:8000/admin
+   - **Health Check**: http://localhost:8000/health/
 
-4. **Run migrations**:
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
+### 🔧 **Manual Setup**
 
-5. **Start Django server**:
-   ```bash
-   python manage.py runserver
-   ```
-
-### Frontend Setup
-
-1. **Navigate to frontend directory**:
-   ```bash
-   cd frontend
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Start Angular development server**:
-   ```bash
-   npm start
-   ```
-
-## 🌐 API Endpoints
-
-### Market Insights
-- `GET /api/insights/` - Comprehensive market insights
-- `GET /api/market-overview/` - Market statistics and overview
-
-### Stock Data
-- `GET /api/stocks/` - List all stocks with filtering
-- `GET /api/stocks/{symbol}/` - Individual stock details
-
-### Categorized Lists
-- `GET /api/stocks/bullish/` - Top bullish stocks
-- `GET /api/stocks/bearish/` - Top bearish stocks
-- `GET /api/stocks/overpriced/` - Overpriced stocks
-- `GET /api/stocks/underpriced/` - Underpriced stocks
-- `GET /api/stocks/volume-leaders/` - Volume leaders
-- `GET /api/stocks/dividend/` - Dividend stocks
-- `GET /api/stocks/growth/` - Growth stocks
-
-## 📊 Data Sources
-
-The application uses the `tvscreener` library to fetch real-time Egyptian stock market data, including:
-
-- **500+ Stocks**: Comprehensive coverage of Egyptian stock market
-- **200+ Data Points**: Price, volume, technical indicators, financial metrics
-- **Real-time Updates**: Live market data with 5-minute caching
-
-## 🎨 UI Components
-
-### Landing Page
-- Hero section with animated charts
-- Feature highlights
-- Market statistics
-- Call-to-action sections
-
-### Insights Page
-- Market overview dashboard
-- Categorized stock rankings
-- Performance metrics
-- Interactive filtering
-
-### Stock Details Page
-- Comprehensive stock information
-- Technical indicators analysis
-- Financial metrics breakdown
-- Performance charts
-
-### Stock List Page
-- Searchable and filterable table
-- Pagination support
-- Sorting capabilities
-- Export functionality
-
-## 🔧 Configuration
-
-### Environment Variables
-Create `.env` files for configuration:
-
-**Backend (.env)**:
-```
-DEBUG=True
-SECRET_KEY=your-secret-key
-DATABASE_URL=sqlite:///db.sqlite3
-CACHE_URL=redis://localhost:6379/0
+#### Backend Setup
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
 ```
 
-**Frontend (environment.ts)**:
-```typescript
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:8000/api'
-};
+#### Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-## 🚀 Deployment
+## 📋 Tech Stack
 
-### Backend Deployment
-1. Set `DEBUG=False` in production
-2. Configure production database
-3. Set up Redis for caching
-4. Deploy to your preferred platform (Heroku, AWS, etc.)
+### Backend
+- **Framework**: Django 4.2.7
+- **API**: Django REST Framework 3.14.0
+- **Database**: PostgreSQL 15
+- **Deployment**: Gunicorn 21.2.0
+- **Static Files**: WhiteNoise 6.6.0
 
-### Frontend Deployment
-1. Build for production: `npm run build`
-2. Deploy to static hosting (Netlify, Vercel, etc.)
-3. Update API URL in environment files
+### Frontend
+- **Framework**: Angular 20.3.0
+- **Styling**: Bootstrap 5.3.8 + Bootstrap Icons 1.13.1
+- **Charts**: Chart.js 4.5.0 + Lightweight Charts 4.1.3
+- **HTTP Client**: Axios 1.12.2
+- **Build Tool**: Angular CLI 20.3.3
 
-## 📈 Performance Features
+### Development Tools
+- **Containerization**: Docker & Docker Compose
+- **Database**: PostgreSQL 15 Alpine
+- **Code Quality**: Prettier, ESLint
 
-- **Caching**: 5-minute cache for API responses
-- **Lazy Loading**: Route-based code splitting
-- **Pagination**: Efficient data loading
-- **Optimized Queries**: Database query optimization
-- **CDN Ready**: Static asset optimization
+## 🔧 Development
 
-## 🔒 Security Features
+### Project Structure
+```
+stock-insights-project/
+├── backend/                 # Django REST API
+│   ├── stock_api/          # Project settings
+│   ├── stocks/             # Main application
+│   │   ├── models.py       # Database models
+│   │   ├── views.py        # API endpoints
+│   │   ├── serializers.py  # Data serialization
+│   │   └── stock_fetcher.py # Data fetching logic
+│   └── requirements.txt
+├── frontend/               # Angular SPA
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/ # Feature components
+│   │   │   └── services/   # API services
+│   │   └── environments/   # Environment configs
+│   └── package.json
+├── docker-compose.yml      # Development environment
+└── DEPLOYMENT.md          # Production deployment guide
+```
 
-- **CORS Configuration**: Proper cross-origin setup
-- **Input Validation**: Server-side validation
-- **SQL Injection Protection**: Django ORM protection
-- **XSS Protection**: Angular sanitization
+### Key Features Implementation
+
+#### Stock Data Management
+- **Models**: Comprehensive stock information with 50+ fields
+- **API Endpoints**: RESTful design with proper status codes
+- **Caching Strategy**: 5-minute cache for external API calls
+- **Error Handling**: Graceful degradation and user feedback
+
+#### Data Visualization
+- **Chart Components**: Reusable chart components with multiple chart types
+- **Real-time Updates**: Efficient data polling and updates
+- **Responsive Design**: Mobile-first approach with Bootstrap grid system
+
+## 🚢 Deployment
+
+### Production Deployment (Railway.app)
+
+#### Backend Service
+```bash
+# Required Environment Variables
+DJ_ENV=production
+DJ_DEBUG=False
+DJ_SECRET=your-super-secret-key
+DATABASE_URL=${POSTGRES.DATABASE_URL}
+FRONTEND_URL=https://your-frontend-domain.railway.app
+```
+
+#### Frontend Service
+```bash
+# Required Environment Variables
+PORT=3000
+API_URL=https://your-backend-domain.railway.app
+```
+
+### Docker Deployment
+```bash
+# Backend
+docker build -t stock-api-backend ./backend
+docker run -p 8000:8000 \
+  -e DJ_ENV=production \
+  -e DATABASE_URL=postgresql://... \
+  stock-api-backend
+
+# Frontend
+docker build -t stock-api-frontend ./frontend
+docker run -p 3000:3000 \
+  -e PORT=3000 \
+  stock-api-frontend
+```
+
+## 🔒 Security
+
+### Backend Security
+- **Environment-based Configuration**: No hardcoded secrets
+- **CORS Protection**: Proper cross-origin resource sharing setup
+- **Security Headers**: Django security middleware enabled
+- **Non-root Container**: Security best practices in Docker
+
+### Frontend Security
+- **Content Security Policy**: XSS protection measures
+- **Input Validation**: Client-side validation with server verification
+- **HTTPS Enforcement**: Secure communication protocols
+
+## 📊 API Reference
+
+### Core Endpoints
+
+#### Stock Insights
+```http
+GET /api/stocks/insights/
+```
+Fetches comprehensive stock market insights with caching.
+
+**Response:**
+```json
+{
+  "success": true,
+  "cached": false,
+  "data": {
+    "stocks": [...],
+    "market_summary": {...},
+    "top_performers": [...]
+  }
+}
+```
+
+#### Stock Details
+```http
+GET /api/stocks/{symbol}/
+```
+Retrieves detailed information for a specific stock.
+
+## 🧪 Testing
+
+### Backend Tests
+```bash
+cd backend
+python manage.py test
+```
+
+### Frontend Tests
+```bash
+cd frontend
+npm test
+```
+
+## 📈 Performance
+
+### Optimization Features
+- **Database Indexing**: Optimized queries with proper indexes
+- **Static File Optimization**: WhiteNoise for efficient static file serving
+- **Production Builds**: Optimized Angular production bundles
+
+### Monitoring
+- **Health Endpoints**: `/health/` for service monitoring
+- **Error Tracking**: Comprehensive error logging and reporting
+- **Performance Metrics**: Response time and throughput monitoring
 
 ## 🤝 Contributing
 
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Workflow
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📄 License
+### Code Style
+- **Backend**: PEP 8 compliance with Black formatting
+- **Frontend**: ESLint + Prettier configuration
+- **Commits**: Conventional commit messages
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 📝 License
 
-## 🆘 Support
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **TradingView** for financial data APIs
+- **Egyptian Stock Exchange** for market data
+- **Django Community** for excellent documentation and support
+- **Angular Team** for the robust frontend framework
+
+## 📞 Support
 
 For support and questions:
-- Create an issue on GitHub
-- Contact: info@stockinsights.com
+- 📧 **Email**: support@stockinsights.com
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/your-username/stock-insights-project/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/your-username/stock-insights-project/issues)
+- 📚 **Wiki**: [Project Wiki](https://github.com/your-username/stock-insights-project/wiki)
 
-## 🔮 Future Enhancements
+## 🗺️ Roadmap
 
-- **Real-time WebSocket Updates**: Live price updates
-- **Portfolio Management**: Track personal investments
-- **Advanced Charting**: More chart types and indicators
-- **Mobile App**: React Native or Flutter app
-- **AI Predictions**: Machine learning price predictions
-- **Social Features**: Share insights and follow other investors
+- [ ] **Mobile App**: Native iOS and Android applications
+- [ ] **Advanced Analytics**: Machine learning-powered predictions
+- [ ] **Portfolio Tracking**: Personal investment portfolio management
+- [ ] **Real-time Notifications**: Price alerts and market updates
+- [ ] **API Marketplace**: Third-party integrations and plugins
+- [ ] **Multi-language Support**: Arabic and English interface
 
 ---
 
+<div align="center">
+
 **Built with ❤️ for the Egyptian stock market community**
 
+[⭐ Star this repo](https://github.com/your-username/stock-insights-project) | [🐛 Report Bug](https://github.com/your-username/stock-insights-project/issues) | [💡 Request Feature](https://github.com/your-username/stock-insights-project/issues)
+
+</div>
