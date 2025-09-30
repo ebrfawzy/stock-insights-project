@@ -202,7 +202,7 @@ export interface StockInsights {
   providedIn: 'root'
 })
 export class StockService {
-  private apiUrl = environment.apiUrl || 'http://localhost:8000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
