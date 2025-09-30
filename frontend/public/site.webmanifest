@@ -1,0 +1,22 @@
+{
+  "name": "Mzaker (مذاكر) - Stock Market Insights",
+  "short_name": "Mzaker",
+  "description": "Get real-time stock market insights, technical analysis, and investment strategies",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#0d6efd",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}

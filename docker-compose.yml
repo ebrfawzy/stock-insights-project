@@ -1,20 +1,6 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database
-  postgres:
-    image: postgres:15-alpine
-    container_name: stock_insights_postgres
-    env_file:
-      - .env.local
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
-
   # Django Backend
   backend:
     build:
@@ -27,7 +13,7 @@ services:
       - "${BACKEND_PORT:-8000}:8000"
     volumes:
       - ./backend:/app
-      - backend_static:/app/staticfiles
+    user: root  # Temporary: Run as root to avoid SQLite permission issues
     command: >
       sh -c "
         python manage.py migrate &&
@@ -52,6 +38,13 @@ services:
       - backend
     command: npm run dev -- --host 0.0.0.0 --port 4200
 
-volumes:
-  postgres_data:
-  backend_static:
+  # # PostgreSQL Database
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: stock_insights_postgres
+  #   env_file:
+  #     - .env.local
+  #   environment:
+  #     POSTGRES_HOST_AUTH_METHOD: trust
+  #   ports:
+  #     - "${POSTGRES_PORT:-5432}:5432"

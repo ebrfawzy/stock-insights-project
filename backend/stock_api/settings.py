@@ -10,27 +10,27 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Environment
-ENVIRONMENT = os.getenv('DJ_ENV', 'development')
-IS_PRODUCTION = ENVIRONMENT == 'production'
+ENVIRONMENT = os.getenv("DJ_ENV", "development")
+IS_PRODUCTION = ENVIRONMENT == "production"
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJ_SECRET', 'django-insecure-dev-key-change-in-production')
+SECRET_KEY = os.getenv("DJ_SECRET", "django-insecure-dev-key-change-in-production")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJ_DEBUG', 'True').lower() in ('true', '1', 'yes', 'on')
+DEBUG = os.getenv("DJ_DEBUG", "True").lower() in ("true", "1", "yes", "on")
 
 # Allowed hosts
 ALLOWED_HOSTS = []
 if IS_PRODUCTION:
     ALLOWED_HOSTS = [
-        '.railway.app',
-        os.getenv('RAILWAY_PUBLIC_DOMAIN', ''),
-        os.getenv('RAILWAY_PRIVATE_DOMAIN', ''),
+        ".railway.app",
+        os.getenv("RAILWAY_PUBLIC_DOMAIN", ""),
+        os.getenv("RAILWAY_PRIVATE_DOMAIN", ""),
     ]
     # Remove empty strings
     ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
 else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1", "*"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -78,24 +78,33 @@ TEMPLATES = [
 WSGI_APPLICATION = "stock_api.wsgi.application"
 
 # Database
-DATABASE_URL = os.getenv('DATABASE_URL')
-if DATABASE_URL:
-    # Production database configuration using dj-database-url
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+# TEMPORARY: Using SQLite instead of PostgreSQL
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
-else:
-    # Development database configuration
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('PGDATABASE', 'stock_insights_db'),
-            'USER': os.getenv('PGUSER', 'postgres'),
-            'PASSWORD': os.getenv('PGPASSWORD', 'password'),
-            'HOST': os.getenv('PGHOST', 'localhost'),
-            'PORT': os.getenv('PGPORT', '5432'),
-        }
-    }
+}
+
+# PostgreSQL configuration (commented out temporarily)
+# DATABASE_URL = os.getenv('DATABASE_URL')
+# if DATABASE_URL:
+#     # Production database configuration using dj-database-url
+#     DATABASES = {
+#         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+#     }
+# else:
+#     # Development database configuration
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': os.getenv('PGDATABASE', 'stock_insights_db'),
+#             'USER': os.getenv('PGUSER', 'postgres'),
+#             'PASSWORD': os.getenv('PGPASSWORD', 'password'),
+#             'HOST': os.getenv('PGHOST', 'localhost'),
+#             'PORT': os.getenv('PGPORT', '5432'),
+#         }
+#     }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -133,13 +142,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 if IS_PRODUCTION:
     CORS_ALLOW_ALL_ORIGINS = False
     CORS_ALLOWED_ORIGINS = [
-        os.getenv('FRONTEND_URL', ''),
-        os.getenv('RAILWAY_PUBLIC_DOMAIN', ''),
+        os.getenv("FRONTEND_URL", ""),
+        os.getenv("RAILWAY_PUBLIC_DOMAIN", ""),
     ]
     # Remove empty strings and add https prefix if needed
     CORS_ALLOWED_ORIGINS = [
-        origin if origin.startswith('http') else f'https://{origin}'
-        for origin in CORS_ALLOWED_ORIGINS if origin
+        origin if origin.startswith("http") else f"https://{origin}"
+        for origin in CORS_ALLOWED_ORIGINS
+        if origin
     ]
 else:
     CORS_ALLOW_ALL_ORIGINS = True
@@ -158,37 +168,37 @@ if IS_PRODUCTION:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Session settings
-SESSION_COOKIE_SAMESITE = os.getenv('DJ_SAME_SITE', 'Lax')
-CSRF_COOKIE_SAMESITE = os.getenv('DJ_SAME_SITE', 'Lax')
+SESSION_COOKIE_SAMESITE = os.getenv("DJ_SAME_SITE", "Lax")
+CSRF_COOKIE_SAMESITE = os.getenv("DJ_SAME_SITE", "Lax")
 
 # Logging configuration
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
         },
     },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
     },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-            'propagate': False,
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "propagate": False,
         },
     },
 }

@@ -1,4 +1,4 @@
-# Stock Insights - Egyptian Stock Market Analytics Platform
+# Mzaker (مذاكر) - Learning and Knowledge Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Django](https://img.shields.io/badge/Django-4.2.7-green.svg)](https://djangoproject.com/)
@@ -6,7 +6,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com/)
 
-A comprehensive full-stack web application for real-time Egyptian stock market data analysis, insights, and visualization. Built with modern technologies and designed for both development and production deployment.
+Mzaker (مذاكر) - A comprehensive full-stack web application for real-time Egyptian stock market data analysis, insights, and visualization. Built with modern technologies and designed for both development and production deployment.
 
 ## 🌟 Features
 

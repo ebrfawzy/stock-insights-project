@@ -15,7 +15,14 @@ import { LanguageService } from '../../services/language.service';
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-6">
-              <h1 class="display-4 fw-bold mb-4">{{ languageService.getTranslation('welcomeTitle') }}</h1>
+              <div class="d-flex align-items-center mb-4">
+                <img src="apple-touch-icon.png" alt="Mzaker Logo" width="80" height="80" class="me-3">
+                <div>
+                  <h1 class="display-4 fw-bold mb-0">Mzaker</h1>
+                  <p class="lead mb-0">مذاكر</p>
+                </div>
+              </div>
+              <h2 class="h3 mb-4">{{ languageService.getTranslation('welcomeTitle') }}</h2>
               <p class="lead mb-4">{{ languageService.getTranslation('welcomeSubtitle') }}</p>
               <div class="d-flex gap-3 flex-wrap">
                 <button class="btn btn-light btn-lg" (click)="goToInsights()">
@@ -148,9 +155,10 @@ import { LanguageService } from '../../services/language.service';
         <div class="container">
           <div class="row">
             <div class="col-md-4 mb-4">
-              <h5 class="fw-bold mb-3">
-                <i class="bi bi-graph-up me-2"></i>StockInsights
-              </h5>
+              <div class="d-flex align-items-center mb-3">
+                <img src="favicon-32x32.png" alt="Mzaker Logo" width="32" height="32" class="me-2">
+                <h5 class="fw-bold mb-0">Mzaker (مذاكر)</h5>
+              </div>
               <p class="text-light">{{ languageService.getTranslation('footerTagline') }}</p>
             </div>
             <div class="col-md-4 mb-4">
@@ -185,7 +193,7 @@ import { LanguageService } from '../../services/language.service';
           </div>
           <hr class="border-light">
           <div class="text-center">
-            <p class="mb-0 text-light">&copy; 2024 StockInsights. {{ languageService.getTranslation('rightsReserved') }}</p>
+            <p class="mb-0 text-light">&copy; 2025 Mzaker (مذاكر). {{ languageService.getTranslation('rightsReserved') }}</p>
           </div>
         </div>
       </footer>

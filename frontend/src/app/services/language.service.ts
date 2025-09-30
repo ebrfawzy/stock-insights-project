@@ -18,7 +18,7 @@ export interface Translations {
   light: string;
   dark: string;
   themeToggleTitle: string;
-  
+
   // Landing page
   welcomeTitle: string;
   welcomeSubtitle: string;
@@ -48,7 +48,7 @@ export interface Translations {
   aboutUs: string;
   contact: string;
   rightsReserved: string;
-  
+
   // Insights page
   marketInsights: string;
   topBullish: string;
@@ -79,7 +79,7 @@ export interface Translations {
   noNegativeMovers: string;
   bullish: string;
   bearish: string;
-  
+
   // Stock details
   stockDetails: string;
   price: string;
@@ -103,26 +103,26 @@ export interface Translations {
   fiveYearPerformance: string;
   allTimePerformance: string;
   highLowRecords: string;
-  
+
   // Performance
   weeklyPerformance: string;
   monthlyPerformance: string;
   yearlyPerformance: string;
-  
+
   // Technical indicators
   technicalIndicators: string;
   rsi: string;
   macd: string;
   movingAverages: string;
   bollingerBands: string;
-  
+
   // Financial metrics
   financialMetrics: string;
   revenue: string;
   profit: string;
   debt: string;
   equity: string;
-  
+
   // Common
   loading: string;
   error: string;
@@ -165,7 +165,7 @@ export class LanguageService {
       light: 'Light',
       dark: 'Dark',
       themeToggleTitle: 'Toggle theme',
-      
+
       // Landing page
       welcomeTitle: 'Egyptian Stock Market Insights',
       welcomeSubtitle: 'Discover comprehensive analysis and insights for Egyptian stocks',
@@ -195,7 +195,7 @@ export class LanguageService {
       aboutUs: 'About Us',
       contact: 'Contact',
       rightsReserved: 'All rights reserved.',
-      
+
       // Insights page
       marketInsights: 'Market Insights',
       topBullish: 'Top Bullish Stocks',
@@ -226,7 +226,7 @@ export class LanguageService {
       noNegativeMovers: 'No negative movers available at the moment.',
       bullish: 'Bullish',
       bearish: 'Bearish',
-      
+
       // Stock details
       stockDetails: 'Stock Details',
       price: 'Price',
@@ -250,26 +250,26 @@ export class LanguageService {
       fiveYearPerformance: '5 Year Performance',
       allTimePerformance: 'All Time Performance',
       highLowRecords: 'High/Low Records',
-      
+
       // Performance
       weeklyPerformance: 'Weekly Performance',
       monthlyPerformance: 'Monthly Performance',
       yearlyPerformance: 'Yearly Performance',
-      
+
       // Technical indicators
       technicalIndicators: 'Technical Indicators',
       rsi: 'RSI',
       macd: 'MACD',
       movingAverages: 'Moving Averages',
       bollingerBands: 'Bollinger Bands',
-      
+
       // Financial metrics
       financialMetrics: 'Financial Metrics',
       revenue: 'Revenue',
       profit: 'Profit',
       debt: 'Debt',
       equity: 'Equity',
-      
+
       // Common
       loading: 'Loading...',
       error: 'Error',
@@ -299,122 +299,122 @@ export class LanguageService {
     'ar-EG': {
       // Navigation
       home: 'الرئيسية',
-      insights: 'الرؤى',
+      insights: 'تحليلات السوق',
       stocks: 'الأسهم',
-      about: 'حول',
+      about: 'من نحن',
       changeLanguage: 'تغيير اللغة',
       light: 'فاتح',
       dark: 'داكن',
       themeToggleTitle: 'تبديل السمة',
-      
+
       // Landing page
-      welcomeTitle: 'رؤى سوق الأسهم المصرية',
-      welcomeSubtitle: 'اكتشف التحليل الشامل والرؤى لأسهم السوق المصرية',
+      welcomeTitle: 'تحليلات سوق الأسهم المصرية',
+      welcomeSubtitle: 'اكتشف تحليلات ورؤى متعمقة عن الأسهم المصرية',
       getStarted: 'ابدأ الآن',
       exploreStocks: 'استكشف الأسهم',
-      keyFeatures: 'الميزات الرئيسية',
-      featureRealTimeDataTitle: 'بيانات لحظية',
-      featureRealTimeDataDesc: 'احصل على أحدث أسعار الأسهم وبيانات السوق من البورصة المصرية',
+      keyFeatures: 'أهم المميزات',
+      featureRealTimeDataTitle: 'بيانات مباشرة',
+      featureRealTimeDataDesc: 'تابع أسعار الأسهم وبيانات السوق مباشرة من البورصة المصرية',
       featureSmartInsightsTitle: 'رؤى ذكية',
-      featureSmartInsightsDesc: 'تحليل مدعوم بالذكاء الاصطناعي لتحديد الفرص الصاعدة والهابطة وفرص القيمة',
+      featureSmartInsightsDesc: 'تحليلات مدعومة بالذكاء الاصطناعي لاكتشاف فرص الصعود أو الهبوط وقيم الصفقات',
       featureTechnicalAnalysisTitle: 'التحليل الفني',
-      featureTechnicalAnalysisDesc: 'مؤشرات فنية شاملة وأدوات رسوم بيانية لاتخاذ قرارات مستنيرة',
-      featureInvestmentStrategiesTitle: 'استراتيجيات الاستثمار',
-      featureInvestmentStrategiesDesc: 'اعثر على أفضل الأسهم للآفاق قصيرة ومتوسطة وطويلة المدى',
+      featureTechnicalAnalysisDesc: 'مؤشرات فنية وأدوات رسم بياني متقدمة لاتخاذ قرارات مدروسة',
+      featureInvestmentStrategiesTitle: 'استراتيجيات استثمار',
+      featureInvestmentStrategiesDesc: 'اختَر الأسهم المناسبة للأجل القصير والمتوسط والطويل',
       marketOverview: 'نظرة عامة على السوق',
       statsStocksTracked: 'الأسهم المتتبعة',
-      statsRealTimeUpdates: 'تحديثات لحظية',
+      statsRealTimeUpdates: 'تحديثات مباشرة',
       statsTechnicalIndicators: 'المؤشرات الفنية',
-      statsFreeAccess: 'وصول مجاني',
-      ctaTitle: 'جاهز للبدء في الاستثمار؟',
-      ctaSubtitle: 'انضم إلى آلاف المستثمرين الذين يثقون برؤانا لقراراتهم في سوق الأسهم المصرية',
+      statsFreeAccess: 'دخول مجاني',
+      ctaTitle: 'جاهز تبدأ الاستثمار؟',
+      ctaSubtitle: 'انضم لآلاف المستثمرين اللي بيعتمدوا على تحليلاتنا لاتخاذ قراراتهم في السوق المصرية',
       ctaButton: 'ابدأ التحليل الآن',
-      footerTagline: 'شريكك الموثوق لتحليل سوق الأسهم المصرية',
+      footerTagline: 'شريكك الموثوق في تحليل سوق الأسهم المصرية',
       quickLinks: 'روابط سريعة',
-      marketInsightsLink: 'رؤى السوق',
+      marketInsightsLink: 'تحليلات السوق',
       stockListLink: 'قائمة الأسهم',
       aboutUs: 'من نحن',
-      contact: 'تواصل',
+      contact: 'تواصل معنا',
       rightsReserved: 'جميع الحقوق محفوظة.',
-      
+
       // Insights page
-      marketInsights: 'رؤى السوق',
-      topBullish: 'أفضل الأسهم الصاعدة',
-      topBearish: 'أفضل الأسهم الهابطة',
-      bestShortTerm: 'أفضل للاستثمار قصير المدى (أسبوع)',
-      bestMediumTerm: 'أفضل للاستثمار متوسط المدى (شهر)',
-      bestLongTerm: 'أفضل للاستثمار طويل المدى (سنة)',
-      overpriced: 'الأسهم المبالغ في قيمتها',
-      underpriced: 'الأسهم المقومة بأقل من قيمتها',
-      volumeLeaders: 'قادة الحجم',
-      momentumStocks: 'أسهم الزخم',
-      dividendStocks: 'أسهم الأرباح',
-      growthStocks: 'أسهم النمو',
-      insightsSubtitle: 'تحليل شامل لسوق الأسهم المصرية',
+      marketInsights: 'تحليلات السوق',
+      topBullish: 'أقوى الأسهم الصاعدة',
+      topBearish: 'أقوى الأسهم الهابطة',
+      bestShortTerm: 'مناسب للاستثمار قصير الأجل (أسبوع)',
+      bestMediumTerm: 'مناسب للاستثمار متوسط الأجل (شهر)',
+      bestLongTerm: 'مناسب للاستثمار طويل الأجل (سنة)',
+      overpriced: 'أسهم ذات قيمة مبالغ فيها',
+      underpriced: 'أسهم مقوّمة بأقل من قيمتها',
+      volumeLeaders: 'قادة حجم التداول',
+      momentumStocks: 'أسهم ذات زخم',
+      dividendStocks: 'أسهم توزيعات',
+      growthStocks: 'أسهم نمو',
+      insightsSubtitle: 'تحليل شامل ومُحدث لسوق الأسهم المصرية',
       totalStocks: 'إجمالي الأسهم',
       totalMarketCap: 'إجمالي القيمة السوقية',
-      averagePERatio: 'متوسط نسبة السعر إلى الربح',
-      averageVolume: 'متوسط الحجم',
+      averagePERatio: 'متوسط نسبة السعر/الربح (P/E)',
+      averageVolume: 'متوسط حجم التداول',
       rating: 'التقييم',
-      unknown: 'غير معروف',
-      volumeShort: 'الحجم',
-      relVol: 'حجم نسبي',
-      topSectorsChange: 'أفضل القطاعات تغيرًا',
-      noSectorData: 'لا توجد بيانات قطاعات متاحة حاليًا.',
+      unknown: 'غير متاح',
+      volumeShort: 'حجم التداول',
+      relVol: 'الحجم النسبي',
+      topSectorsChange: 'أبرز القطاعات من حيث التغير',
+      noSectorData: 'لا توجد بيانات للقطاعات حالياً.',
       topPositiveMovers: 'أكبر الرابحين',
       topNegativeMovers: 'أكبر الخاسرين',
-      noPositiveMovers: 'لا توجد أسهم رابحة متاحة حاليًا.',
-      noNegativeMovers: 'لا توجد أسهم خاسرة متاحة حاليًا.',
+      noPositiveMovers: 'لا توجد تحركات إيجابية حالياً.',
+      noNegativeMovers: 'لا توجد تحركات سلبية حالياً.',
       bullish: 'صاعد',
       bearish: 'هابط',
-      
+
       // Stock details
       stockDetails: 'تفاصيل السهم',
       price: 'السعر',
-      change: 'التغيير',
-      volume: 'الحجم',
+      change: 'التغير',
+      volume: 'حجم التداول',
       marketCap: 'القيمة السوقية',
-      peRatio: 'نسبة السعر إلى الربح',
-      dividendYield: 'عائد الأرباح',
+      peRatio: 'نسبة السعر/الربح (P/E)',
+      dividendYield: 'عائد التوزيعات',
       technicalRating: 'التقييم الفني',
       breadcrumbHome: 'الرئيسية',
       breadcrumbStocks: 'الأسهم',
       keyMetrics: 'المؤشرات الرئيسية',
-      open: 'الافتتاح',
-      high: 'الأعلى',
-      low: 'الأدنى',
+      open: 'سعر الافتتاح',
+      high: 'أعلى سعر',
+      low: 'أدنى سعر',
       performance: 'الأداء',
       additionalPerformance: 'أداء إضافي',
-      ytdPerformance: 'الأداء منذ بداية العام',
+      ytdPerformance: 'الأداء منذ بداية العام (YTD)',
       threeMonthPerformance: 'أداء 3 أشهر',
       sixMonthPerformance: 'أداء 6 أشهر',
       fiveYearPerformance: 'أداء 5 سنوات',
       allTimePerformance: 'الأداء منذ الإدراج',
-      highLowRecords: 'سجلات الأعلى/الأدنى',
-      
+      highLowRecords: 'سجلات أعلى/أدنى',
+
       // Performance
       weeklyPerformance: 'الأداء الأسبوعي',
       monthlyPerformance: 'الأداء الشهري',
       yearlyPerformance: 'الأداء السنوي',
-      
+
       // Technical indicators
       technicalIndicators: 'المؤشرات الفنية',
-      rsi: 'مؤشر القوة النسبية',
-      macd: 'مؤشر الماكد',
+      rsi: 'مؤشر القوة النسبية (RSI)',
+      macd: 'مؤشر الماكد (MACD)',
       movingAverages: 'المتوسطات المتحركة',
-      bollingerBands: 'أشرطة بولينجر',
-      
+      bollingerBands: 'نطاقات بولينجر',
+
       // Financial metrics
       financialMetrics: 'المقاييس المالية',
       revenue: 'الإيرادات',
-      profit: 'الربح',
+      profit: 'صافي الربح',
       debt: 'الديون',
       equity: 'حقوق الملكية',
-      
+
       // Common
       loading: 'جاري التحميل...',
-      error: 'خطأ',
-      noData: 'لا توجد بيانات متاحة',
+      error: 'حدث خطأ',
+      noData: 'لا توجد بيانات',
       refresh: 'تحديث',
       search: 'بحث',
       filter: 'تصفية',
@@ -423,7 +423,7 @@ export class LanguageService {
       // Stocks list page
       pageStockListTitle: 'قائمة الأسهم',
       pageStockListSubtitle: 'تصفح وحلل جميع الأسهم المصرية',
-      searchPlaceholder: 'ابحث بالرمز أو الاسم...',
+      searchPlaceholder: 'ابحث برمز أو اسم السهم...',
       sector: 'القطاع',
       allSectors: 'جميع القطاعات',
       industry: 'الصناعة',
@@ -434,7 +434,7 @@ export class LanguageService {
       actions: 'الإجراءات',
       previous: 'السابق',
       next: 'التالي',
-      noStocksFound: 'لا توجد أسهم مطابقة لمعاييرك',
+      noStocksFound: 'لم يتم العثور على أسهم تطابق معايير البحث.',
       clearFilters: 'مسح عوامل التصفية'
     }
   };

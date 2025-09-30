@@ -11,8 +11,9 @@ import { ThemeService } from '../../services/theme.service';
   template: `
     <nav class="navbar navbar-expand-lg bg-primary navbar-dark shadow" [attr.dir]="languageService.getCurrentLanguage()().direction">
       <div class="container-fluid">
-        <a class="navbar-brand fw-bold" routerLink="/">
-          <i class="bi bi-graph-up me-2"></i>StockInsights
+        <a class="navbar-brand fw-bold d-flex align-items-center" routerLink="/">
+          <img src="favicon-32x32.png" alt="Mzaker Logo" width="32" height="32" class="me-2">
+          <span>Mzaker</span>
         </a>
         
         <button class="navbar-toggler" 
