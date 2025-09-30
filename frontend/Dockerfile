@@ -44,19 +44,31 @@ ENV PORT=80
 EXPOSE $PORT
 
 # Create startup script that substitutes environment variables
-RUN echo '#!/bin/sh' > /docker-entrypoint.sh && \
-    echo '# Replace API_URL in built files' >> /docker-entrypoint.sh && \
-    echo 'if [ -n "$API_URL" ]; then' >> /docker-entrypoint.sh && \
-    echo '  find /usr/share/nginx/html -name "*.js" -exec sed -i "s|API_URL_PLACEHOLDER|$API_URL|g" {} \;' >> /docker-entrypoint.sh && \
-    echo 'fi' >> /docker-entrypoint.sh && \
-    echo '# Generate nginx config from template' >> /docker-entrypoint.sh && \
-    echo 'envsubst "\$PORT" < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf' >> /docker-entrypoint.sh && \
-    echo 'exec nginx -g "daemon off;"' >> /docker-entrypoint.sh && \
-    chmod +x /docker-entrypoint.sh
+COPY <<EOF /docker-entrypoint.sh
+#!/bin/sh
+set -e
 
-# Simple HTTP healthcheck (using PORT env var)
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:$PORT/ || exit 1
+echo "Starting with PORT=\$PORT"
+
+# Replace API_URL in built files
+if [ -n "\$API_URL" ]; then
+  echo "Replacing API_URL_PLACEHOLDER with \$API_URL"
+  find /usr/share/nginx/html -name "*.js" -exec sed -i "s|API_URL_PLACEHOLDER|\$API_URL|g" {} \;
+fi
+
+# Generate nginx config from template
+echo "Generating nginx config for port \$PORT"
+envsubst '\$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+
+# Show the generated config for debugging
+echo "Generated nginx config:"
+cat /etc/nginx/nginx.conf | grep -A 5 -B 5 "listen"
+
+# Start nginx
+exec nginx -g "daemon off;"
+EOF
+
+RUN chmod +x /docker-entrypoint.sh
 
 # Start with our custom entrypoint script
 CMD ["/docker-entrypoint.sh"]
