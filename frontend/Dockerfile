@@ -28,47 +28,20 @@ RUN mkdir -p /app/dist_root \
 FROM nginx:1.29.1-alpine AS production
 LABEL stage=production
 
-# Copy built static files into nginx html root
+# Copy built static files
 COPY --from=builder /app/dist_root/ /usr/share/nginx/html/
 
-# Copy nginx config template
-COPY nginx.conf.template /etc/nginx/nginx.conf.template
+# Copy nginx config template  
+COPY nginx.conf.template /tmp/nginx.conf.template
 
-# Install envsubst for environment variable substitution
-RUN apk add --no-cache gettext
+# Install envsubst and create simple startup script
+RUN apk add --no-cache gettext && \
+    echo '#!/bin/sh' > /start.sh && \
+    echo 'envsubst < /tmp/nginx.conf.template > /etc/nginx/nginx.conf' >> /start.sh && \
+    echo 'nginx -g "daemon off;"' >> /start.sh && \
+    chmod +x /start.sh
 
-# Set default port if not provided
-ENV PORT=80
-
-# Expose the port (will be dynamic based on PORT env var)
+ENV PORT=8080
 EXPOSE $PORT
 
-# Create startup script that substitutes environment variables
-COPY <<EOF /docker-entrypoint.sh
-#!/bin/sh
-set -e
-
-echo "Starting with PORT=\$PORT"
-
-# Replace API_URL in built files
-if [ -n "\$API_URL" ]; then
-  echo "Replacing API_URL_PLACEHOLDER with \$API_URL"
-  find /usr/share/nginx/html -name "*.js" -exec sed -i "s|API_URL_PLACEHOLDER|\$API_URL|g" {} \;
-fi
-
-# Generate nginx config from template
-echo "Generating nginx config for port \$PORT"
-envsubst '\$PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
-
-# Show the generated config for debugging
-echo "Generated nginx config:"
-cat /etc/nginx/nginx.conf | grep -A 5 -B 5 "listen"
-
-# Start nginx
-exec nginx -g "daemon off;"
-EOF
-
-RUN chmod +x /docker-entrypoint.sh
-
-# Start with our custom entrypoint script
-CMD ["/docker-entrypoint.sh"]
+CMD ["/start.sh"]
