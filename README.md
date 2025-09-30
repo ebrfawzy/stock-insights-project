@@ -129,8 +129,7 @@ stock-insights-project/
 │   │   │   └── services/   # API services
 │   │   └── environments/   # Environment configs
 │   └── package.json
-├── docker-compose.yml      # Development environment
-└── DEPLOYMENT.md          # Production deployment guide
+└── docker-compose.yml      # Development environment
 ```
 
 ### Key Features Implementation
@@ -252,7 +251,7 @@ npm test
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions!
 
 ### Development Workflow
 1. Fork the repository
