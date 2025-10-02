@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Django Backend
   backend:
@@ -8,27 +6,27 @@ services:
       dockerfile: Dockerfile
     container_name: stock_insights_backend
     env_file:
-      - .env.local
+      - ${ENV_FILE:-.env.local}
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     volumes:
       - ./backend:/app
-    user: root  # Temporary: Run as root to avoid SQLite permission issues
-    command: >
-      sh -c "
-        python manage.py migrate &&
-        python manage.py collectstatic --noinput &&
-        python manage.py runserver 0.0.0.0:8000
-      "
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - web
+      - all
 
-  # Angular Frontend
+  # Angular Frontend (Shared for Django & Airflow)
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
+      target: ${NODE_ENV:-development}
     container_name: stock_insights_frontend
     env_file:
-      - .env.local
+      - ${ENV_FILE:-.env.local}
     ports:
       - "${FRONTEND_PORT:-4200}:4200"
     volumes:
@@ -36,15 +34,68 @@ services:
       - /app/node_modules
     depends_on:
       - backend
-    command: npm run dev -- --host 0.0.0.0 --port 4200
+    profiles:
+      - web
+      - all
 
-  # # PostgreSQL Database
-  # postgres:
-  #   image: postgres:15-alpine
-  #   container_name: stock_insights_postgres
-  #   env_file:
-  #     - .env.local
-  #   environment:
-  #     POSTGRES_HOST_AUTH_METHOD: trust
-  #   ports:
-  #     - "${POSTGRES_PORT:-5432}:5432"
+  # PostgreSQL
+  postgres:
+    image: postgres:alpine
+    container_name: stock_insights_postgres
+    env_file:
+      - ${ENV_FILE:-.env.local}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      interval: 5s
+      retries: 5
+    restart: always
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    profiles:
+      - analytics
+      - web
+      - all
+
+  # MinIO (Local S3)
+  minio:
+    image: minio/minio
+    container_name: stock_insights_minio
+    env_file:
+      - ${ENV_FILE:-.env.local}
+    ports:
+      - "${MINIO_API_PORT}:9000"
+      - "${MINIO_CONSOLE_PORT}:9001"
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+    profiles:
+      - analytics
+      - all
+
+  # Airflow (Combined webserver and scheduler)
+  airflow:
+    build:
+      context: ./airflow
+      dockerfile: Dockerfile
+    container_name: stock_insights_airflow
+    env_file:
+      - ${ENV_FILE:-.env.local}
+    volumes:
+      - ./duckdb:/opt/airflow/duckdb
+    ports:
+      - "${AIRFLOW_WEBSERVER_PORT}:8080"
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - analytics
+      - all
+
+volumes:
+  postgres-data:
+    name: postgres-data
+  minio-data:
+    name: minio-data

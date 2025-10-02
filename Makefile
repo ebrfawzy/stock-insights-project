@@ -1,120 +1,182 @@
-# Stock Insights Development Makefile
+# Makefile — Option A: source .env file in the same shell invocation per-target
+SHELL := /bin/bash
+.PHONY: help build up up-logs down logs logs-service clean reset migrate makemigrations superuser shell collectstatic test test-coverage db backup npm-install ng-component setup
 
-.PHONY: help build up down logs clean test migrate superuser shell
+# Which docker compose CLI to use (override if you prefer the hyphenated binary)
+DOCKER_COMPOSE ?= docker compose
 
-# Default target
+# Which env file to load
+ENV_FILE ?= .env.local
+
+# Pass one or more profiles as a space-separated string, e.g.
+#   make up PROFILES="analytics all"
+PROFILES ?= all
+PROFILE_FLAGS := $(if $(PROFILES),$(foreach p,$(PROFILES),--profile $(p)),)
+
+# Friendly defaults for printed URLs
+BACKEND_URL ?= http://localhost:8000
+FRONTEND_URL ?= http://localhost:4200
+AIRFLOW_URL ?= http://localhost:8080
+MinIO_URL ?= http://localhost:9001
+
 help:
 	@echo "Stock Insights Development Commands:"
 	@echo ""
-	@echo "  make build     - Build all Docker images"
-	@echo "  make up        - Start all services"
-	@echo "  make down      - Stop all services"
-	@echo "  make logs      - View logs from all services"
-	@echo "  make clean     - Stop services and remove volumes"
-	@echo "  make reset     - Complete reset (removes everything)"
+	@echo "  make build                - Build all Docker images"
+	@echo "  make up PROFILES=\"...\"    - Start services (optionally with profiles)"
+	@echo "  make down                 - Stop all services"
+	@echo "  make up-logs              - Start and show logs (foreground)"
+	@echo "  make logs                 - Follow logs for all services"
+	@echo "  make logs-service NAME=.. - Follow logs for a single service"
+	@echo "  make clean                - Stop and remove volumes"
+	@echo "  make reset                - Complete reset (remove images & volumes)"
 	@echo ""
-	@echo "  make migrate   - Run Django migrations"
-	@echo "  make superuser - Create Django superuser"
-	@echo "  make shell     - Open Django shell"
-	@echo "  make test      - Run backend tests"
+	@echo "  make migrate              - Run Django migrations"
+	@echo "  make superuser            - Create Django superuser (interactive)"
+	@echo "  make shell                - Open Django shell (interactive)"
+	@echo "  make test                 - Run backend tests"
 	@echo ""
-	@echo "  make db        - Connect to PostgreSQL database"
+	@echo "  make db                   - Open psql to the postgres container"
 	@echo ""
+	@echo "Variables you can override:"
+	@echo "  ENV_FILE (default .env.local)"
+	@echo "  DOCKER_COMPOSE (default 'docker compose')"
+	@echo "  PROFILES (space-separated, e.g. 'analytics all')"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make up"
+	@echo "  make up PROFILES=\"web\""
+	@echo "  make up PROFILES=\"analytics all\""
+
+# -------------------------
+# Helpers: inline source pattern
+# -------------------------
+# Each recipe below uses the same pattern:
+#   set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+# so the env vars are exported in the same shell that runs docker compose.
 
 # Build all images
 build:
-	docker-compose build
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) build
 
-# Start all services
+# Start all services (detached). Use PROFILES to include profile-labeled services.
 up:
-	docker-compose up -d
-	@echo "Services started!"
-	@echo "Frontend: http://localhost:4200"
-	@echo "Backend:  http://localhost:8000"
-	@echo "Admin:    http://localhost:8000/admin"
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	echo "Starting services $(if $(PROFILES),with profiles: $(PROFILES),without extra profiles)"; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) up -d; \
+	echo "Services started!"; \
+	echo "Frontend: $(FRONTEND_URL)"; \
+	echo "Backend:  $(BACKEND_URL)"; \
+	echo "Airflow:  $(AIRFLOW_URL)"; \
+	echo "MinIO:  $(MinIO_URL)"; \
+	echo "Admin:    $(BACKEND_URL)/admin"
 
-# Start with logs visible
+# Start and show logs (foreground)
 up-logs:
-	docker-compose up
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) up
 
 # Stop all services
 down:
-	docker-compose down
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) down
 
-# View logs
+# Follow logs for everything
 logs:
-	docker-compose logs -f
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) logs -f
 
-# View logs for specific service
-logs-backend:
-	docker-compose logs -f backend
-
-logs-frontend:
-	docker-compose logs -f frontend
-
-logs-db:
-	docker-compose logs -f postgres
+# Follow logs for a specific service (usage: make logs-service NAME=backend)
+logs-service:
+	@if [ -z "$(NAME)" ]; then \
+		echo "Usage: make logs-service NAME=<service-name>"; exit 1; \
+	fi
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) logs -f $(NAME)
 
 # Clean up (remove volumes)
 clean:
-	docker-compose down -v
-	@echo "All services stopped and volumes removed"
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) down -v; \
+	echo "All services stopped and volumes removed"
 
-# Complete reset
+# Complete reset (remove containers, volumes, images)
 reset:
-	docker-compose down -v --rmi all
-	docker system prune -f
-	@echo "Complete reset done"
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) down -v --rmi all; \
+	docker system prune -f; \
+	echo "Complete reset done"
 
+# -------------------------
 # Django management commands
+# -------------------------
 migrate:
-	docker-compose exec backend python manage.py migrate
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T backend python manage.py migrate
 
 makemigrations:
-	docker-compose exec backend python manage.py makemigrations
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T backend python manage.py makemigrations
 
+# interactive: no -T so tty is allocated (use from a terminal)
 superuser:
-	docker-compose exec backend python manage.py createsuperuser
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec backend python manage.py createsuperuser
 
+# interactive shell
 shell:
-	docker-compose exec backend python manage.py shell
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec backend python manage.py shell
 
 collectstatic:
-	docker-compose exec backend python manage.py collectstatic --noinput
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T backend python manage.py collectstatic --noinput
 
 # Testing
 test:
-	docker-compose exec backend python manage.py test
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T backend python manage.py test
 
 test-coverage:
-	docker-compose exec backend coverage run --source='.' manage.py test
-	docker-compose exec backend coverage report
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T backend coverage run --source='.' manage.py test; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T backend coverage report
 
-# Database access
+# -------------------------
+# Database access + backup
+# -------------------------
 db:
-	docker-compose exec postgres psql -U postgres -d stock_insights_db
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T postgres psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
 
-# Backup database
 backup:
-	docker-compose exec postgres pg_dump -U postgres stock_insights_db > backup_$(shell date +%Y%m%d_%H%M%S).sql
-	@echo "Database backup created"
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	echo "Creating DB backup..."; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T postgres pg_dump -U ${POSTGRES_USER} ${POSTGRES_DB} > backup_$$(date +%Y%m%d_%H%M%S).sql; \
+	echo "Database backup created"
 
-# Install frontend dependencies
+# -------------------------
+# Frontend helpers
+# -------------------------
 npm-install:
-	docker-compose exec frontend npm install
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec -T frontend npm install
 
-# Generate Angular component
+# Interactive component generator
 ng-component:
-	@read -p "Component name: " name; \
-	docker-compose exec frontend ng generate component $$name
+	@set -a; [ -f $(ENV_FILE) ] && . $(ENV_FILE); set +a; \
+	read -p "Component name: " name; \
+	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec frontend ng generate component $$name
 
-# Development setup (first time)
+# -------------------------
+# Setup target: build, up, migrate
+# -------------------------
 setup: build up migrate
 	@echo ""
 	@echo "🎉 Development environment is ready!"
 	@echo ""
 	@echo "Next steps:"
 	@echo "1. Create a superuser: make superuser"
-	@echo "2. Visit http://localhost:4200 for the frontend"
-	@echo "3. Visit http://localhost:8000/admin for Django admin"
-	@echo ""
+	@echo "2. Visit $(FRONTEND_URL) for the frontend"
+	@echo "3. Visit $(BACKEND_URL)/admin for Django admin"

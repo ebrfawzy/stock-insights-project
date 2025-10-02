@@ -34,6 +34,16 @@ COPY . .
 RUN mkdir -p staticfiles \
     && chown -R django:django /app
 
+# Create app directory for scripts
+RUN mkdir -p /app/scripts \
+    && echo '#!/bin/bash\n\
+python manage.py migrate\n\
+python manage.py collectstatic --noinput\n\
+exec python manage.py runserver 0.0.0.0:8000\n\
+' > /app/scripts/start.sh \
+    && chmod +x /app/scripts/start.sh \
+    && chown -R django:django /app/scripts
+
 # Switch to non-root user
 USER django
 
