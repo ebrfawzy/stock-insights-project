@@ -14,18 +14,5 @@ psql "$PSQL_BASE" -tAc "SELECT 1 FROM pg_database WHERE datname='${AIRFLOW_DATAB
 # Run migrations
 airflow db migrate
 
-# Create default user if not exists
-airflow users list | grep -q "${AIRFLOW_DEFAULT_USER}" || \
-  airflow users create \
-    --username "${AIRFLOW_DEFAULT_USER}" \
-    --password "${AIRFLOW_DEFAULT_PASSWORD}" \
-    --firstname "${AIRFLOW_DEFAULT_FIRSTNAME}" \
-    --lastname "${AIRFLOW_DEFAULT_LASTNAME}" \
-    --role "${AIRFLOW_DEFAULT_ROLE}" \
-    --email "${AIRFLOW_DEFAULT_EMAIL}"
-
-# Start scheduler in background
-airflow scheduler &
-
-# Start webserver
-exec airflow api-server
+# Start Airflow in standalone mode
+exec airflow standalone

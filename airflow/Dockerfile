@@ -1,5 +1,5 @@
 # Dockerfile
-FROM apache/airflow:slim-latest-python3.12
+FROM apache/airflow:slim-latest-python3.13
 
 USER root
 

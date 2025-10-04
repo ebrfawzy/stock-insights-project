@@ -169,6 +169,9 @@ ng-component:
 	read -p "Component name: " name; \
 	$(DOCKER_COMPOSE) $(PROFILE_FLAGS) exec frontend ng generate component $$name
 
+
+startfresh: clean build up logs
+
 # -------------------------
 # Setup target: build, up, migrate
 # -------------------------
