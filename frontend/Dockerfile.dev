@@ -1,11 +1,11 @@
+# ---------------------------------------------------------------------------
+# Development stage (serve compiled static files)
+# ---------------------------------------------------------------------------
+
 # Development Dockerfile for Angular
-FROM node:24-alpine
-
-# Set working directory
+FROM node:24-alpine AS development
+LABEL stage=development
 WORKDIR /app
-
-# Install dependencies for development
-RUN apk add --no-cache curl
 
 # Copy package files
 COPY package*.json ./

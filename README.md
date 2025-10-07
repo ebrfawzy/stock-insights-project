@@ -5,6 +5,8 @@
 [![Angular](https://img.shields.io/badge/Angular-20.3.0-red.svg)](https://angular.io/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com/)
+[![Apache Airflow](https://img.shields.io/badge/Airflow-2.7.1-red.svg)](https://airflow.apache.org/)
+[![DuckDB](https://img.shields.io/badge/DuckDB-0.9.1-orange.svg)](https://duckdb.org/)
 
 Mzaker (مذاكر) - A comprehensive full-stack web application for real-time Egyptian stock market data analysis, insights, and visualization. Built with modern technologies and designed for both development and production deployment.
 
@@ -32,15 +34,25 @@ Mzaker (مذاكر) - A comprehensive full-stack web application for real-time E
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Angular SPA   │◄──►│  Django REST    │◄──►│   PostgreSQL    │
-│                 │    │     API         │    │   Database      │
+│                 │    │     API         │    │   (OLTP DB)     │
 │   Frontend      │    │                 │    │                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          │                       │                       │
          ▼                       ▼                       ▼
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Bootstrap +   │    │   Static Files  │    │   External APIs │
-│   Charts.js     │    │   (WhiteNoise)  │    │   (Stock Data)  │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+│   Bootstrap +   │    │   Static Files  │    │ Apache Airflow  │
+│   Charts.js     │    │   (WhiteNoise)  │    │ Data Pipeline   │
+└─────────────────┘    └─────────────────┘    └────────┬────────┘
+                                                       │
+                                              ┌────────▼────────┐
+                                              │     DuckDB      │
+                                              │    (OLAP DB)    │
+                                              └────────┬────────┘
+                                                      │
+                                              ┌────────▼────────┐
+                                              │  S3/MinIO       │
+                                              │  Data Lake      │
+                                              └─────────────────┘
 ```
 
 ## 🚀 Quick Start
@@ -48,6 +60,95 @@ Mzaker (مذاكر) - A comprehensive full-stack web application for real-time E
 ### Prerequisites
 - **Docker & Docker Compose** (recommended)
 - **Node.js 18+** & **npm** (for frontend development)
+- **Python 3.10+** (for backend development)
+
+### Local Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/stock-insights-project.git
+   cd stock-insights-project
+   ```
+
+2. **Set up environment variables**
+   ```bash
+   # For local development, use .env.local (already configured for local setup)
+   # For production deployment, copy and edit .env.prod with your values
+   cp .env.prod .env.prod.local
+   # Edit .env.prod.local with your production values
+   ```
+
+3. **Start the application stack**
+
+   For local development:
+   ```bash
+   # Start all services using local configuration
+   docker-compose up
+
+   # Or explicitly specify the environment file
+   ENV_FILE=.env.local docker-compose up
+   ```
+
+   For production:
+   ```bash
+   # Start services using production configuration
+   ENV_FILE=.env.prod docker-compose up
+   ```
+
+4. **Access the applications**
+   - Frontend: http://localhost:4200
+   - Backend API: http://localhost:8000
+   - Airflow UI: http://localhost:8080
+   - MinIO Console: http://localhost:9001
+
+### Production Deployment (Railway.app)
+
+1. **Set up Railway project**
+   ```bash
+   # Install Railway CLI
+   npm i -g @railway/cli
+   # Login to Railway
+   railway login
+   ```
+
+2. **Configure environment variables**
+   - Copy contents of `.env.prod.template` and configure in Railway dashboard
+   - Copy contents of `airflow/.env.prod.template` and configure in Railway dashboard
+   - Ensure AWS S3 credentials are properly configured
+
+3. **Deploy the services**
+   ```bash
+   # Deploy backend
+   cd backend && railway up
+   # Deploy frontend
+   cd frontend && railway up
+   # Deploy Airflow
+   cd airflow && railway up
+   ```
+
+### Data Pipeline Setup
+
+The data pipeline consists of several components:
+
+1. **Apache Airflow**: Orchestrates the data workflows
+   - Located in the `airflow/` directory
+   - DAGs are stored in `airflow/dags/`
+   - Custom plugins in `airflow/plugins/`
+
+2. **DuckDB**: Analytics database
+   - Stores processed and aggregated data
+   - Schema automatically initialized on first run
+   - Located in `duckdb/` directory
+
+3. **S3 Storage**:
+   - Uses MinIO for local development
+   - Real AWS S3 for production
+   - Configured through environment variables
+
+4. **Environment Configuration**:
+   - Local: Uses MinIO as S3 alternative
+   - Production: Uses AWS S3
+   - Configuration via environment variables
 - **Python 3.11+** (for backend development)
 - **PostgreSQL 15+** (for production database)
 
