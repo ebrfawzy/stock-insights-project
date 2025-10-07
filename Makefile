@@ -1,5 +1,11 @@
 # Makefile — Option A: source .env file in the same shell invocation per-target
-SHELL := /bin/bash
+ifeq ($(OS),Windows_NT)
+	SHELL := bash.exe
+	SHELLFLAGS := -c
+else
+	SHELL := /bin/bash
+endif
+
 .PHONY: help build up up-logs down logs logs-service clean reset migrate makemigrations superuser shell collectstatic test test-coverage db backup npm-install ng-component setup
 
 # Which docker compose CLI to use (override if you prefer the hyphenated binary)

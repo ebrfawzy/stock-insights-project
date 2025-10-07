@@ -9,8 +9,6 @@ services:
       - ${ENV_FILE:-.env.local}
     ports:
       - "${BACKEND_PORT:-8000}:8000"
-    volumes:
-      - ./backend:/app
     depends_on:
       postgres:
         condition: service_healthy
@@ -29,9 +27,6 @@ services:
       - ${ENV_FILE:-.env.local}
     ports:
       - "${FRONTEND_PORT:-4200}:4200"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     depends_on:
       - backend
     profiles:
@@ -45,7 +40,7 @@ services:
     env_file:
       - ${ENV_FILE:-.env.local}
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
       interval: 5s
@@ -82,11 +77,6 @@ services:
     container_name: stock_insights_airflow
     env_file:
       - ${ENV_FILE:-.env.local}
-    volumes:
-      - ./duckdb:/opt/airflow/duckdb
-      - ./airflow/dags:/opt/airflow/dags
-      - ./airflow/plugins:/opt/airflow/plugins
-      - ./airflow/logs:/opt/airflow/logs
     ports:
       - "${AIRFLOW_WEBSERVER_PORT}:8080"
     restart: always
