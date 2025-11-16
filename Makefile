@@ -1,4 +1,4 @@
-# Makefile — Option A: source .env file in the same shell invocation per-target
+# Makefile—Option A: source .env file in the same shell invocation per-target
 ifeq ($(OS),Windows_NT)
 	SHELL := bash.exe
 	SHELLFLAGS := -c
